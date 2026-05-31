@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>栖物 QIWU — 一个人，六十轮迭代</title>
-    <meta name="description" content="栖物电商系统。60轮迭代，250+测试，11层安全防护。由一位独立开发者手工打磨的全栈电商源码——不交300块保证金也能卖。">
+    <meta name="description" content="栖物电商系统。60轮迭代，250+测试，11层安全防护。一位独立开发者手工打磨的全栈电商源码。">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -21,7 +21,6 @@
             --muted-light: #B5AFA9;
             --accent: #B8754F;
             --accent-light: #D49B7A;
-            --sage: #7D8B6F;
         }
 
         html { scroll-behavior: smooth; }
@@ -36,22 +35,18 @@
 
         ::selection { background: var(--accent); color: white; }
 
-        /* ═══════════ SPRING PHYSICS ENGINE ═══════════ */
+        /* ═══════════ SPRING CURVES ═══════════ */
         .spring {
             transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
                         opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
                         box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                        border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        filter 0.5s cubic-bezier(0.16, 1, 0.3, 1),
                         background 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .spring-fast {
             transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
                         box-shadow 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        background 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-        .spring-bounce {
-            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+                        filter 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         /* ═══════════ TYPOGRAPHY ═══════════ */
@@ -71,18 +66,37 @@
         .section { padding: 120px 0; }
         @media(max-width:768px){ .section { padding: 72px 0; } }
 
-        /* ═══════════ NAV — Glass + scale on scroll ═══════════ */
+        /* ═══════════ PARALLAX BACKGROUND ═══════════ */
+        .parallax-bg {
+            position:fixed; top:0; left:0; width:100%; height:100%;
+            pointer-events:none; z-index:-1;
+            will-change:transform;
+        }
+        .parallax-orb {
+            position:absolute;
+            border-radius:50%; filter:blur(120px); opacity:0.12;
+        }
+        .parallax-orb.orb-1 {
+            width:600px; height:600px; background:var(--accent-light);
+            top:10%; left:-10%;
+        }
+        .parallax-orb.orb-2 {
+            width:500px; height:500px; background:var(--sage);
+            top:60%; right:-8%;
+        }
+
+        /* ═══════════ NAV — Glass depth ═══════════ */
         .nav {
             position:fixed; top:0; left:0; right:0; z-index:100;
             background:rgba(252,250,247,0.72);
             backdrop-filter:blur(14px) saturate(1.4);
             -webkit-backdrop-filter:blur(14px) saturate(1.4);
             border-bottom:1px solid rgba(0,0,0,0.04);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .nav.scrolled {
-            background:rgba(252,250,247,0.92);
-            box-shadow: 0 1px 0 rgba(0,0,0,0.03), 0 8px 24px rgba(0,0,0,0.04);
+            background:rgba(252,250,247,0.94);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.03), 0 8px 32px rgba(0,0,0,0.05);
         }
         .nav-inner { display:flex; align-items:center; justify-content:space-between; height:64px; }
         .nav-logo {
@@ -98,14 +112,13 @@
         }
         .nav-logo:hover mark { transform: scale(1.1) rotate(-5deg); }
 
-        /* ═══════════ BUTTONS — Press feedback ═══════════ */
+        /* ═══════════ BUTTONS ═══════════ */
         .btn {
             display:inline-flex; align-items:center; gap:8px;
             font-size:13px; font-weight:500; letter-spacing:0.03em;
             padding:14px 32px; background:var(--ink); color:var(--paper);
-            text-decoration:none;
+            text-decoration:none; position:relative; overflow:hidden;
             transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-            position:relative; overflow:hidden;
         }
         .btn::after {
             content:''; position:absolute; inset:0;
@@ -123,9 +136,20 @@
         }
         .btn-ghost:hover { border-color:var(--ink); transform: scale(1.02); }
         .btn-ghost:active { transform: scale(0.97); }
+        .nav-cta {
+            font-size:13px; font-weight:500; letter-spacing:0.02em;
+            padding:8px 22px; border:1.5px solid var(--ink);
+            color:var(--ink); text-decoration:none;
+            transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        .nav-cta:hover { background:var(--ink); color:var(--paper); transform: scale(1.03); }
+        .nav-cta:active { transform: scale(0.97); }
 
-        /* ═══════════ HERO — Parallax text ═══════════ */
-        .hero { padding:180px 0 64px; text-align:center; position:relative; }
+        /* ═══════════ HERO — Parallax depth ═══════════ */
+        .hero {
+            padding:200px 0 80px; text-align:center; position:relative;
+            will-change:transform;
+        }
         .hero-chapter {
             display:inline-block; font-size:10px; letter-spacing:0.36em; text-transform:uppercase;
             color:var(--accent); font-weight:500; margin-bottom:28px;
@@ -151,42 +175,51 @@
             to { opacity:1; transform:translateY(0); }
         }
 
-        /* ═══════════ STATS — Animated count ═══════════ */
+        /* ═══════════ STATS ═══════════ */
         .stats-strip { border-top:1px solid var(--warm-2); border-bottom:1px solid var(--warm-2); }
         .stats-inner { display:flex; justify-content:center; gap:80px; padding:40px 0; flex-wrap:wrap; }
         @media(max-width:640px){ .stats-inner { gap:36px; } }
-        .stat { text-align:center; }
-        .stat .num {
-            font-size:2rem; letter-spacing:-0.02em;
-            font-variant-numeric: tabular-nums;
-        }
+        .stat .num { font-size:2rem; letter-spacing:-0.02em; font-variant-numeric:tabular-nums; }
         .stat .desc { font-size:11px; color:var(--muted); letter-spacing:0.12em; text-transform:uppercase; margin-top:4px; }
 
-        /* ═══════════ SCROLL REVEAL — Staggered spring entrance ═══════════ */
-        .reveal {
-            opacity:0; transform:translateY(36px);
+        /* ═══════════ 3D SCROLL REVEAL — Card-style entrance ═══════════ */
+        .reveal-3d {
+            opacity:0;
+            transform: perspective(1200px) rotateX(2deg) translateY(40px) scale(0.96);
+            filter:blur(4px);
+            transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
+                        transform 0.9s cubic-bezier(0.16,1,0.3,1),
+                        filter 0.7s cubic-bezier(0.16,1,0.3,1);
+        }
+        .reveal-3d.visible {
+            opacity:1;
+            transform: perspective(1200px) rotateX(0) translateY(0) scale(1);
+            filter:blur(0);
+        }
+
+        /* Grid children stagger */
+        .reveal-stagger > * {
+            opacity:0;
+            transform: perspective(1000px) rotateY(3deg) translateY(32px) scale(0.95);
+            filter:blur(3px);
             transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
-                        transform 0.8s cubic-bezier(0.16,1,0.3,1);
+                        transform 0.8s cubic-bezier(0.16,1,0.3,1),
+                        filter 0.65s cubic-bezier(0.16,1,0.3,1);
         }
-        .reveal.visible { opacity:1; transform:translateY(0); }
-        .reveal-children > * {
-            opacity:0; transform:translateY(28px);
-            transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
-                        transform 0.7s cubic-bezier(0.16,1,0.3,1);
-        }
-        .reveal-children.visible > *:nth-child(1) { transition-delay:0s; opacity:1; transform:translateY(0); }
-        .reveal-children.visible > *:nth-child(2) { transition-delay:0.08s; opacity:1; transform:translateY(0); }
-        .reveal-children.visible > *:nth-child(3) { transition-delay:0.16s; opacity:1; transform:translateY(0); }
-        .reveal-children.visible > *:nth-child(4) { transition-delay:0.24s; opacity:1; transform:translateY(0); }
-        .reveal-children.visible > *:nth-child(5) { transition-delay:0.32s; opacity:1; transform:translateY(0); }
-        .reveal-children.visible > *:nth-child(6) { transition-delay:0.40s; opacity:1; transform:translateY(0); }
+        .reveal-stagger.visible > *:nth-child(1) { transition-delay:0s; opacity:1; transform:perspective(1000px) rotateY(0) translateY(0) scale(1); filter:blur(0); }
+        .reveal-stagger.visible > *:nth-child(2) { transition-delay:0.1s; opacity:1; transform:perspective(1000px) rotateY(0) translateY(0) scale(1); filter:blur(0); }
+        .reveal-stagger.visible > *:nth-child(3) { transition-delay:0.2s; opacity:1; transform:perspective(1000px) rotateY(0) translateY(0) scale(1); filter:blur(0); }
+        .reveal-stagger.visible > *:nth-child(4) { transition-delay:0.3s; opacity:1; transform:perspective(1000px) rotateY(0) translateY(0) scale(1); filter:blur(0); }
+        .reveal-stagger.visible > *:nth-child(5) { transition-delay:0.4s; opacity:1; transform:perspective(1000px) rotateY(0) translateY(0) scale(1); filter:blur(0); }
+        .reveal-stagger.visible > *:nth-child(6) { transition-delay:0.5s; opacity:1; transform:perspective(1000px) rotateY(0) translateY(0) scale(1); filter:blur(0); }
 
         @media(prefers-reduced-motion:reduce){
-            .reveal, .reveal-children > * { opacity:1; transform:none; transition:none; }
-            .spring, .spring-fast, .spring-bounce { transition:none; }
+            .reveal-3d, .reveal-stagger > * { opacity:1; transform:none; filter:none; transition:none; }
+            .spring, .spring-fast { transition:none; }
+            .parallax-bg { display:none; }
         }
 
-        /* ═══════════ STORY GRID ═══════════ */
+        /* ═══════════ STORY ═══════════ */
         .story-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px 48px; align-items:start; }
         @media(max-width:768px){ .story-grid { grid-template-columns:1fr; gap:40px; } }
         .story-num {
@@ -196,9 +229,9 @@
         .story h3 { font-size:1.2rem; font-weight:600; letter-spacing:-0.01em; margin-bottom:10px; }
         .story p { font-size:14px; color:var(--muted); line-height:1.8; }
 
-        /* ═══════════ FOUNDER QUOTE — Float animation ═══════════ */
+        /* ═══════════ FOUNDER QUOTE ═══════════ */
         .quote-block {
-            max-width:760px; margin:0 auto; text-align:center; padding:80px 0; position:relative;
+            max-width:760px; margin:0 auto; text-align:center; padding:80px 0 40px; position:relative;
         }
         .quote-block::before {
             content:'\201C'; position:absolute; top:20px; left:50%; transform:translateX(-50%);
@@ -213,7 +246,7 @@
         }
         .quote-block footer { font-size:12px; color:var(--muted); letter-spacing:0.08em; margin-top:24px; }
 
-        /* ═══════════ BENTO CARDS — Mouse tilt ═══════════ */
+        /* ═══════════ BENTO — 3D Tilt ═══════════ */
         .bento { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; perspective:1200px; }
         @media(max-width:800px){ .bento { grid-template-columns:1fr; } }
         .bento-card {
@@ -222,7 +255,7 @@
             position:relative; overflow:hidden;
             transform-style:preserve-3d;
         }
-        .bento-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.06); }
+        .bento-card:hover { box-shadow: 0 16px 48px rgba(0,0,0,0.07); }
         .bento-card.wide { grid-column:span 2; }
         @media(max-width:800px){ .bento-card.wide { grid-column:span 1; } }
         .bento-card h3 { font-size:1.1rem; font-weight:600; letter-spacing:-0.01em; margin-bottom:6px; }
@@ -236,26 +269,28 @@
         }
         .bento-tags span:hover { transform: scale(1.08); }
 
-        /* ═══════════ SCREENSHOTS — Hover lift ═══════════ */
+        /* ═══════════ SCREENSHOTS — Curved entrance ═══════════ */
         .shot-wall { display:flex; flex-wrap:wrap; gap:10px; }
         .shot-item {
             flex:0 0 calc(25% - 7.5px);
             background:var(--warm-1); overflow:hidden;
-            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1),
-                        box-shadow 0.4s cubic-bezier(0.16,1,0.3,1);
+            transition: transform 0.45s cubic-bezier(0.16,1,0.3,1),
+                        box-shadow 0.45s cubic-bezier(0.16,1,0.3,1),
+                        filter 0.3s ease;
             cursor:default;
         }
         @media(max-width:900px){ .shot-item { flex:0 0 calc(33.333% - 7px); } }
         @media(max-width:600px){ .shot-item { flex:0 0 calc(50% - 5px); } }
         .shot-item:hover {
-            transform: translateY(-4px) scale(1.02);
-            box-shadow: 0 16px 48px rgba(0,0,0,0.1); z-index:2; position:relative;
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 24px 64px rgba(0,0,0,0.12); z-index:2; position:relative;
+            filter:brightness(1.05);
         }
         .shot-item img { width:100%; height:auto; display:block; transition:opacity 0.3s; }
-        .shot-item:hover img { opacity:0.9; }
+        .shot-item:hover img { opacity:0.92; }
         .shot-item .shot-label { font-size:10px; letter-spacing:0.06em; color:var(--muted); padding:12px 14px; font-weight:500; }
 
-        /* ═══════════ PRICING — Card hover depth ═══════════ */
+        /* ═══════════ PRICING ═══════════ */
         .price-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; max-width:900px; margin:0 auto; perspective:1200px; }
         @media(max-width:768px){ .price-row { grid-template-columns:1fr; } }
         .price-plan {
@@ -263,21 +298,19 @@
             border-right:1px solid var(--warm-2);
             transition: transform 0.45s cubic-bezier(0.16,1,0.3,1),
                         box-shadow 0.45s cubic-bezier(0.16,1,0.3,1),
-                        background 0.3s ease;
+                        filter 0.35s ease;
         }
         .price-plan:last-child { border-right:none; }
         @media(max-width:768px){ .price-plan { border-right:none; border-bottom:1px solid var(--warm-2); } }
         .price-plan:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 24px 64px rgba(0,0,0,0.08);
-            z-index:1; position:relative;
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 32px 80px rgba(0,0,0,0.10);
+            z-index:1; position:relative; filter:brightness(1.03);
         }
         .price-plan.featured {
             background:var(--ink); color:var(--paper); border-color:var(--ink);
         }
-        .price-plan.featured:hover {
-            box-shadow: 0 24px 64px rgba(0,0,0,0.2);
-        }
+        .price-plan.featured:hover { box-shadow: 0 32px 80px rgba(0,0,0,0.25); filter:brightness(1.08); }
         .price-plan.featured .label { color:rgba(255,255,255,0.50); }
         .price-plan.featured li { color:rgba(255,255,255,0.68); }
         .price-plan.featured li .dot { background:var(--accent-light); }
@@ -301,44 +334,33 @@
         .contact-grid > div:first-child > p { color:rgba(255,255,255,0.48); font-size:14px; line-height:1.7; }
         .contact-detail { display:flex; gap:40px; margin-top:28px; }
         @media(max-width:400px){ .contact-detail { flex-direction:column; gap:16px; } }
-        .contact-detail div {
-            transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
-        }
+        .contact-detail div { transition: transform 0.35s cubic-bezier(0.16,1,0.3,1); }
         .contact-detail div:hover { transform: scale(1.05); }
         .contact-detail h4 { font-size:9px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:4px; }
         .contact-detail span { font-size:16px; font-weight:500; }
 
-        /* ═══════════ TRUST STRIP ═══════════ */
+        /* ═══════════ TRUST + FOOTER ═══════════ */
         .trust-strip {
             border-top:1px solid var(--warm-2); border-bottom:1px solid var(--warm-2);
-            padding:28px 0; text-align:center; overflow:hidden; position:relative;
+            padding:28px 0; text-align:center;
         }
         .trust-items { display:flex; justify-content:center; gap:48px; flex-wrap:wrap; }
-        .trust-items span {
-            font-size:12px; color:var(--muted); letter-spacing:0.06em; font-weight:500;
-            transition: color 0.3s;
-        }
+        .trust-items span { font-size:12px; color:var(--muted); letter-spacing:0.06em; font-weight:500; transition: color 0.3s; }
         .trust-items span:hover { color:var(--ink); }
-
-        /* ═══════════ FOOTER ═══════════ */
         .site-footer {
             background:var(--ink); color:rgba(255,255,255,0.28);
             font-size:11px; letter-spacing:0.06em; text-align:center; padding:28px 0;
             border-top:1px solid rgba(255,255,255,0.06);
         }
-
-        /* ═══════════ NAV MENU MOBILE ═══════════ */
-        .nav-cta {
-            font-size:13px; font-weight:500; letter-spacing:0.02em;
-            padding:8px 22px; border:1.5px solid var(--ink);
-            color:var(--ink); text-decoration:none;
-            transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
-        }
-        .nav-cta:hover { background:var(--ink); color:var(--paper); transform: scale(1.03); }
-        .nav-cta:active { transform: scale(0.97); }
     </style>
 </head>
 <body>
+
+    <!-- Parallax ambient background -->
+    <div class="parallax-bg" id="parallaxBg">
+        <div class="parallax-orb orb-1"></div>
+        <div class="parallax-orb orb-2"></div>
+    </div>
 
     <!-- Nav -->
     <nav class="nav spring" id="navbar">
@@ -349,7 +371,7 @@
     </nav>
 
     <!-- ═══════════ HERO ═══════════ -->
-    <header class="hero mx">
+    <header class="hero mx" id="heroSection">
         <span class="hero-chapter">Chapter Zero</span>
         <h1 class="display">我不想再付三百块<br>保证金了。</h1>
         <p class="hero-sub">互站网要我交 300 块才能上架。市面上的电商源码全是 PHP。所以我自己写了一套——用这个时代该用的技术。</p>
@@ -360,7 +382,7 @@
     </header>
 
     <!-- Stats -->
-    <div class="stats-strip reveal" data-delay="0">
+    <div class="stats-strip reveal-3d">
         <div class="mx stats-inner">
             <div class="stat"><div class="num display" data-count="60">0</div><div class="desc">轮迭代</div></div>
             <div class="stat"><div class="num display" data-count="250">0</div><div class="desc">测试用例</div></div>
@@ -371,9 +393,9 @@
 
     <!-- ═══════════ STORY ═══════════ -->
     <section id="story" class="mx section">
-        <span class="label reveal">The Story</span>
-        <h2 class="display reveal" style="font-size:2.2rem;margin-top:10px;margin-bottom:48px;">为什么会有栖物</h2>
-        <div class="story-grid reveal-children">
+        <span class="label reveal-3d">The Story</span>
+        <h2 class="display reveal-3d" style="font-size:2.2rem;margin-top:10px;margin-bottom:48px;">为什么会有栖物</h2>
+        <div class="story-grid reveal-stagger">
             <div class="story">
                 <div class="story-num">01</div>
                 <h3>三百块钱的念头</h3>
@@ -398,15 +420,15 @@
     </section>
 
     <!-- ═══════════ FOUNDER QUOTE ═══════════ -->
-    <div class="mx reveal">
+    <div class="mx reveal-3d">
         <div class="quote-block">
             <blockquote>"我不是公司，不是团队，只是一个觉得市面上的电商源码不够好的开发者。六十轮迭代之后，我觉得它够好了。"</blockquote>
             <footer>&mdash; 栖物的创建者，2025 年 5 月</footer>
         </div>
     </div>
 
-    <!-- ═══════════ TRUST STRIP ═══════════ -->
-    <div class="trust-strip reveal">
+    <!-- ═══════════ TRUST ═══════════ -->
+    <div class="trust-strip reveal-3d">
         <div class="mx trust-items">
             <span>TypeScript Strict Mode</span>
             <span>Docker 一条命令部署</span>
@@ -421,9 +443,9 @@
 
     <!-- ═══════════ TECH BENTO ═══════════ -->
     <section class="mx section">
-        <span class="label reveal">Technology</span>
-        <h2 class="display reveal" style="font-size:2.2rem;margin-top:10px;margin-bottom:40px;">用这个时代的技术</h2>
-        <div class="bento reveal-children">
+        <span class="label reveal-3d">Technology</span>
+        <h2 class="display reveal-3d" style="font-size:2.2rem;margin-top:10px;margin-bottom:40px;">用这个时代的技术</h2>
+        <div class="bento reveal-stagger">
             <div class="bento-card spring" data-tilt>
                 <h3>前端 &middot; 9 个页面</h3>
                 <p>React 19 + Vite 8 + Tailwind CSS 4。首页、商品列表、详情、购物车、结算、登录注册、个人中心、收藏夹、搜索。</p>
@@ -449,12 +471,12 @@
 
     <!-- ═══════════ SCREENSHOTS ═══════════ -->
     <section class="mx section">
-        <span class="label reveal">Interface</span>
-        <h2 class="display reveal" style="font-size:2.2rem;margin-top:10px;margin-bottom:12px;">界面即承诺</h2>
-        <p class="reveal" style="font-size:14px;color:var(--muted);margin-bottom:36px;max-width:480px;">
+        <span class="label reveal-3d">Interface</span>
+        <h2 class="display reveal-3d" style="font-size:2.2rem;margin-top:10px;margin-bottom:12px;">界面即承诺</h2>
+        <p class="reveal-3d" style="font-size:14px;color:var(--muted);margin-bottom:36px;max-width:480px;">
             不是 Mockup，不是原型图。这些是运行中的栖物电商系统真实截图。
         </p>
-        <div class="shot-wall reveal-children">
+        <div class="shot-wall reveal-stagger">
             <div class="shot-item"><img src="screenshots/01-首页.png" alt="首页" loading="lazy"><div class="shot-label">首页</div></div>
             <div class="shot-item"><img src="screenshots/02-商品列表.png" alt="商品列表" loading="lazy"><div class="shot-label">商品列表</div></div>
             <div class="shot-item"><img src="screenshots/03-商品详情.png" alt="商品详情" loading="lazy"><div class="shot-label">商品详情</div></div>
@@ -471,10 +493,10 @@
     </section>
 
     <!-- ═══════════ FAQ ═══════════ -->
-    <section class="mx section" style="padding-top:0;">
-        <span class="label reveal">FAQ</span>
-        <h2 class="display reveal" style="font-size:2.2rem;margin-top:10px;margin-bottom:40px;">你可能想问的</h2>
-        <div class="story-grid reveal-children">
+    <section class="mx" style="padding-bottom:80px;">
+        <span class="label reveal-3d">FAQ</span>
+        <h2 class="display reveal-3d" style="font-size:2.2rem;margin-top:10px;margin-bottom:40px;">你可能想问的</h2>
+        <div class="story-grid reveal-stagger">
             <div class="story"><h3>不懂 Node.js 能部署吗？</h3><p>能。Docker 一条命令部署，也支持传统 npm 方式。选购安装服务可远程协助完成。</p></div>
             <div class="story"><h3>源码有加密或后门吗？</h3><p>完全没有。纯净 TypeScript 源码，无授权验证、无后门、无加密，100% 自由查看修改。</p></div>
             <div class="story"><h3>能用 MySQL 替代 SQLite 吗？</h3><p>可以。内置 DB 抽象层，支持切换到 MySQL 或 PostgreSQL。</p></div>
@@ -485,11 +507,13 @@
     </section>
 
     <!-- ═══════════ PRICING ═══════════ -->
-    <section id="pricing" class="mx section reveal-children">
-        <span class="label">Pricing</span>
-        <h2 class="display" style="font-size:2.2rem;margin-top:10px;margin-bottom:12px;">获取源码</h2>
-        <p style="text-align:center;font-size:14px;color:var(--muted);margin-bottom:48px;">源码在 GitHub 上公开，满意再买。不需要押金，不需要信任成本。</p>
-        <div class="price-row">
+    <section id="pricing" class="mx section" style="padding-top:0;">
+        <span class="label reveal-3d">Pricing</span>
+        <h2 class="display reveal-3d" style="font-size:2.2rem;margin-top:10px;margin-bottom:12px;">获取源码</h2>
+        <p class="reveal-3d" style="text-align:center;font-size:14px;color:var(--muted);margin-bottom:48px;">
+            GitHub 展示页让你了解项目全貌。完整源码、管理后台、部署文档、技术支持——付费后交付。
+        </p>
+        <div class="price-row reveal-stagger">
             <div class="price-plan spring">
                 <h3>标准版</h3>
                 <span class="mono">一次性</span>
@@ -530,11 +554,11 @@
     </section>
 
     <!-- ═══════════ CONTACT ═══════════ -->
-    <section class="contact-section section reveal">
+    <section class="contact-section section reveal-3d">
         <div class="mx contact-grid">
             <div>
-                <h2 class="display">不用交 300 块押金。</h2>
-                <p>源码放在 GitHub 上，点进去就能看。满意了联系我，微信直接转。这就是我想卖的代码——透明、直接、没有中间商。</p>
+                <h2 class="display">先看代码，再决定。</h2>
+                <p>GitHub 上有完整展示和文档。觉得值了联系我，微信直接转。透明、直接、没有中间商——这就是我想卖的代码。</p>
                 <div class="contact-detail">
                     <div><h4>WeChat</h4><span>szz8101753</span></div>
                     <div><h4>QQ</h4><span>3968041907</span></div>
@@ -562,105 +586,81 @@
 (function(){
 'use strict';
 
-// ─── 1. Spring physics helper ─────────────────────────
-// Based on Apple's spring animation model (mass=1, stiffness, damping)
-function springTo(t, stiffness, damping) {
-    stiffness = stiffness || 180;
-    damping = damping || 20;
-    var c = damping;
-    var k = stiffness;
-    var m = 1;
-    var discriminant = c*c - 4*m*k;
-    if (discriminant > 0) {
-        var r1 = (-c + Math.sqrt(discriminant)) / (2*m);
-        var r2 = (-c - Math.sqrt(discriminant)) / (2*m);
-        return (1 - Math.exp(r1 * t)) / (1 - Math.exp(r1 * 0.3));
-    }
-    var omega = Math.sqrt(4*m*k - c*c) / (2*m);
-    var decay = c / (2*m);
-    return 1 - Math.exp(-decay * t) * Math.cos(omega * t);
-}
+// ─── 1. Parallax background ──────────────────────────
+var parallaxBg = document.getElementById('parallaxBg');
+var orb1 = parallaxBg.querySelector('.orb-1');
+var orb2 = parallaxBg.querySelector('.orb-2');
 
-// ─── 2. Scroll reveal ────────────────────────────────
+window.addEventListener('scroll', function() {
+    var y = window.scrollY;
+    var maxY = document.body.scrollHeight - window.innerHeight;
+    var pct = maxY > 0 ? y / maxY : 0;
+
+    // Slow parallax drift for ambient orbs
+    orb1.style.transform = 'translateY(' + (pct * 120) + 'px) translateX(' + (pct * 40) + 'px)';
+    orb2.style.transform = 'translateY(' + (pct * -80) + 'px) translateX(' + (pct * -30) + 'px)';
+}, { passive: true });
+
+// ─── 2. 3D Scroll Reveal ─────────────────────────────
 var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
-            // Trigger count animation for stat numbers
             var counters = entry.target.querySelectorAll('[data-count]');
             counters.forEach(function(el) { animateCount(el); });
         }
     });
-}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
 
-document.querySelectorAll('.reveal, .reveal-children').forEach(function(el) {
+document.querySelectorAll('.reveal-3d, .reveal-stagger').forEach(function(el) {
     observer.observe(el);
 });
 
-// ─── 3. Animated number counting ──────────────────────
+// ─── 3. Animated counting ────────────────────────────
 function animateCount(el) {
     if (el.dataset.animated) return;
     el.dataset.animated = '1';
     var target = parseInt(el.dataset.count);
     var suffix = el.textContent.replace(/[0-9]/g, '').trim();
-    var start = 0;
-    var duration = 1500;
-    var startTime = null;
+    var start = 0, duration = 1500, startTime = null;
 
-    function step(timestamp) {
-        if (!startTime) startTime = timestamp;
-        var progress = Math.min((timestamp - startTime) / duration, 1);
-        // Apple-style ease-out curve
-        var eased = 1 - Math.pow(1 - progress, 3);
-        var current = Math.round(eased * target);
-        el.textContent = current + (suffix ? ' ' + suffix : '');
-        if (progress < 1) requestAnimationFrame(step);
+    function step(ts) {
+        if (!startTime) startTime = ts;
+        var p = Math.min((ts - startTime) / duration, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(eased * target) + (suffix ? ' ' + suffix : '');
+        if (p < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
 }
 
-// Trigger visible counters on load
-document.querySelectorAll('.reveal.visible [data-count], .stats-strip.visible [data-count]').forEach(function(el) {
-    animateCount(el);
+// Check visible on load
+window.addEventListener('load', function() {
+    document.querySelectorAll('.reveal-3d.visible [data-count], .reveal-stagger.visible [data-count]').forEach(animateCount);
+    // Stats strip
+    var ss = document.querySelector('.stats-strip');
+    if (ss) { var r = ss.getBoundingClientRect(); if (r.top < window.innerHeight && r.bottom > 0) ss.querySelectorAll('[data-count]').forEach(animateCount); }
 });
 
 // ─── 4. Mouse-tilt on bento cards ─────────────────────
 document.querySelectorAll('[data-tilt]').forEach(function(card) {
     card.addEventListener('mousemove', function(e) {
         var rect = card.getBoundingClientRect();
-        var x = e.clientX - rect.left;
-        var y = e.clientY - rect.top;
-        var centerX = rect.width / 2;
-        var centerY = rect.height / 2;
-        var rotateX = ((y - centerY) / centerY) * -4;
-        var rotateY = ((x - centerX) / centerX) * 4;
-        card.style.transform = 'perspective(1200px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale3d(1.01,1.01,1.01)';
+        var cx = rect.width / 2, cy = rect.height / 2;
+        var rx = ((e.clientY - rect.top - cy) / cy) * -5;
+        var ry = ((e.clientX - rect.left - cx) / cx) * 5;
+        card.style.transform = 'perspective(1200px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) scale3d(1.02,1.02,1.02)';
     });
     card.addEventListener('mouseleave', function() {
         card.style.transform = 'perspective(1200px) rotateX(0) rotateY(0) scale3d(1,1,1)';
     });
 });
 
-// ─── 5. Nav scroll effect ─────────────────────────────
+// ─── 5. Nav scroll glass effect ───────────────────────
 var navbar = document.getElementById('navbar');
-var lastScroll = 0;
 window.addEventListener('scroll', function() {
-    var y = window.scrollY;
-    if (y > 20) navbar.classList.add('scrolled');
-    else navbar.classList.remove('scrolled');
-    lastScroll = y;
+    navbar.classList.toggle('scrolled', window.scrollY > 20);
 }, { passive: true });
-
-// ─── 6. Check visible stats on load ────────────────────
-window.addEventListener('load', function() {
-    var statsStrip = document.querySelector('.stats-strip');
-    if (statsStrip) {
-        var rect = statsStrip.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-            statsStrip.querySelectorAll('[data-count]').forEach(animateCount);
-        }
-    }
-});
 
 })();
 </script>
