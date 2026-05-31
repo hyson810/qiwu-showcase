@@ -319,12 +319,12 @@
     <!-- STORY -->
     <section id="story" class="mx section">
         <span class="label reveal-3d">The Story</span>
-        <h2 class="display reveal-3d" style="font-size:2.2rem;margin-top:10px;margin-bottom:48px;">为什么会有栖物</h2>
+        <h2 class="display reveal-3d" style="font-size:2.2rem;margin-top:10px;margin-bottom:48px;">三百块钱的念头</h2>
         <div class="story-grid reveal-stagger">
-            <div class="story"><div class="story-num">01</div><h3>三百块钱的念头</h3><p>2024 年底，我准备在互站网上架一套电商源码。审核通过后，系统提示：请缴纳 <strong>300 元保证金</strong>。我没有交。不是因为交不起，是觉得这不对——我想卖代码，为什么要先交一笔钱才能开始？那之后我开始想：有没有一个地方，源码就放在 GitHub 上，不满意直接走人，不需要押金，不需要信任成本。<br><br>于是有了栖物。</p></div>
-            <div class="story"><div class="story-num">02</div><h3>满屏的 PHP</h3><p>互站网 80% 以上的商城源码是 PHP——ThinkPHP、Laravel，十年前的技术栈。没有一套 <strong>Node.js + React 19 + TypeScript</strong> 的全栈方案。我决定自己做。用这个时代该用的技术，写一套干净、现代、有测试、有文档的电商系统。</p></div>
-            <div class="story"><div class="story-num">03</div><h3>六十个深夜</h3><p>从第一行代码到 v2.2.0，60 轮完整迭代。安全修了 12 轮，性能优化 12 轮。最累的是测试——我一个人写了 <strong>250+ 测试用例</strong>，从后端 CRUD 到 E2E 全链路。卖的是源码，源码就该敢把测试亮出来。</p></div>
-            <div class="story"><div class="story-num">04</div><h3>11 层防护</h3><p>卖源码最怕「不安全」。栖物 11 层安全防护：JWT 32 字符强校验、6 层 Rate Limit、CSRF double-submit cookie、XSS sanitize 白名单、文件 magic bytes + MIME + 扩展名三重验证、4 级角色权限、bcrypt 12 轮、CSP 生产强化、Helmet。<br><br>你可以让安全专家审计——我欢迎。</p></div>
+            <div class="story"><div class="story-num">01</div><h3>我不想交那三百块</h3><p>2024 年底，互站网上架一套电商源码，审核过了，弹出来：<strong>请缴纳 300 元保证金</strong>。<br><br>我没交。不是交不起。三百块也就是一顿好点的饭钱。但我就觉得这事特别拧巴——我卖代码，代码都还没人买呢，先让我掏钱？凭什么。<br><br>然后我翻了一下互站网上的商城源码，前二十名全是 PHP。不是 PHP 不好，但那些代码吧……没有类型检查、没有测试、SQL 拼接、admin 密码写死在配置文件里。2024 年了，还在用十年前的写法卖钱。<br><br>我当时就想：<strong>那我写一套吧。</strong>用现在该用的技术栈，把测试写好，把安全做扎实。不为别的，就是想证明这事能做得更好。</p></div>
+            <div class="story"><div class="story-num">02</div><h3>写代码容易，写对难</h3><p>前两周特别爽。搭项目、选技术栈、写数据模型，每天写到凌晨一两点，不觉得累。两周跑通了核心流程——注册、商品、购物车、下单。<br><br>然后我就飘了。心想「这不挺简单的吗」。<br><br>接着购物车的并发 bug 就来了。两个请求同时改同一件商品数量，数据直接乱掉。修了一版，觉得好了。一跑测试，又一个边界情况。再修，再崩。改了快两周，几乎没推进任何新功能。<br><br>那段时间每天深夜看着满屏报错，心里反复在想：<strong>我一个人真的能把这个东西做完吗？</strong></p></div>
+            <div class="story"><div class="story-num">03</div><h3>安全感是自己给的</h3><p>代码写多了，恐惧是反的——不是怕功能做不出来，是怕<strong>做出来的东西被别人部署到公网上出安全事故</strong>。<br><br>我开始一层一层加防护：JWT 双 token、六层 Rate Limit、CSRF 防护、文件上传 magic bytes 校验……每次加一层，之前的代码就得重构一遍。最崩溃的一次改了认证中间件，五十七个 API 端点全部要改调用方式。那天从下午改到凌晨四点，中间吃了一碗泡面。<br><br>有人问我：你一个人写这么多安全措施干嘛？<br><br>我说：<strong>因为我知道我的代码会被人部署到公网上。我不能让它出事。</strong></p></div>
+            <div class="story"><div class="story-num">04</div><h3>能跑了，就交付吗？</h3><p>写到第三十几轮的时候，功能其实早就全了。换个心态的人，可能就上线开卖了。<br><br>但我没忍住。每次觉得「差不多了」，就又发现一个想改的地方：这个变量名不够好、那个函数的错误处理太糙、这块逻辑能再简化三层嵌套……<strong>六十轮不是计划出来的，是我每次觉得"差不多了"然后又改了一轮，改着改着就到六十了。</strong><br><br>最后那天跑了一次完整测试——250 个用例，32 秒全绿。那个瞬间比任何夸奖都让人安心。因为我知道，<strong>每一行关键代码背后都有一个盯着它的测试。</strong></p></div>
         </div>
     </section>
 
