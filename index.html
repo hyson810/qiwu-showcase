@@ -681,14 +681,21 @@ function updateScrollBend() {
 requestAnimationFrame(updateScrollBend);
 
 // ─── 1. Bidirectional 3D Scroll Reveal ─────────────────
+var pageScrolled = false;
+window.addEventListener('scroll', function() { pageScrolled = true; }, { once: true });
+
 var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
         if (entry.isIntersecting) {
+            // Skip elements that are initially deep below fold (prevent instant reveal)
+            if (!pageScrolled) {
+                var rect = entry.boundingClientRect;
+                if (rect.top > window.innerHeight * 1.2) return;
+            }
             entry.target.classList.add('visible');
             var counters = entry.target.querySelectorAll('[data-count]');
             counters.forEach(function(el) { animateCount(el); });
         } else {
-            // Remove visible on exit so re-entering triggers animation again
             entry.target.classList.remove('visible');
         }
     });
