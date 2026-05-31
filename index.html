@@ -43,7 +43,7 @@
         /* Content sits above canvas */
         .content-layer {
             position:relative; z-index:1;
-            transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             transform-origin: center 30vh;
             will-change: transform;
         }
@@ -641,7 +641,7 @@ var targetBend = 0;
 var currentBend = 0;
 var lastScrollY = window.scrollY;
 var lastTime = performance.now();
-var scrollDamping = 0.92;
+var bendTimeout = null;
 
 function updateScrollBend() {
     var now = performance.now();
@@ -652,22 +652,29 @@ function updateScrollBend() {
     var rawVel = (currentY - lastScrollY) / Math.max(dt, 0.001);
     lastScrollY = currentY;
 
-    // Smooth velocity with exponential moving average
+    // Smooth velocity
     scrollVel = scrollVel * 0.7 + rawVel * 0.3;
 
-    // Map velocity to bend angle (-2deg to +2deg)
+    // Map to bend angle
     var maxVel = 3000;
     targetBend = Math.max(-1, Math.min(1, scrollVel / maxVel)) * 1.8;
 
-    // Spring-decay toward target
-    currentBend = currentBend * scrollDamping + targetBend * (1 - scrollDamping);
+    // Heavy damping — settle fast, no bounce
+    currentBend = currentBend * 0.88 + targetBend * 0.12;
 
-    // Apply bend; clear inline style when nearly flat so CSS transition handles spring-back
-    if (Math.abs(currentBend) < 0.02) {
+    // Apply bend
+    if (Math.abs(currentBend) < 0.015) {
         contentLayer.style.transform = '';
     } else {
         contentLayer.style.transform = 'perspective(2400px) rotateX(' + currentBend + 'deg)';
     }
+
+    // Timeout: if no scroll for 120ms, snap to flat
+    clearTimeout(bendTimeout);
+    bendTimeout = setTimeout(function() {
+        scrollVel = 0;
+        targetBend = 0;
+    }, 120);
 
     requestAnimationFrame(updateScrollBend);
 }
@@ -685,7 +692,7 @@ var observer = new IntersectionObserver(function(entries) {
             entry.target.classList.remove('visible');
         }
     });
-}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+}, { threshold: 0.08, rootMargin: '0px 0px -100px 0px' });
 
 document.querySelectorAll('.reveal-3d, .reveal-stagger').forEach(function(el) {
     observer.observe(el);
