@@ -31,15 +31,34 @@
             font-weight: 400; line-height: 1.6;
             color: var(--ink); background: var(--paper);
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         ::selection { background: var(--accent); color: white; }
 
+        /* ═══════════ SPRING PHYSICS ENGINE ═══════════ */
+        .spring {
+            transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                        opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                        background 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .spring-fast {
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        box-shadow 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        background 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .spring-bounce {
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* ═══════════ TYPOGRAPHY ═══════════ */
         .display {
             font-family: 'DM Serif Display', 'Noto Serif SC', serif;
             font-weight: 400; letter-spacing: -0.02em; line-height: 1.08;
         }
-        .serif { font-family: 'Noto Serif SC', serif; }
         .label {
             font-size: 11px; letter-spacing: 0.28em; text-transform: uppercase;
             color: var(--muted); font-weight: 500;
@@ -52,13 +71,18 @@
         .section { padding: 120px 0; }
         @media(max-width:768px){ .section { padding: 72px 0; } }
 
-        /* ═══════════ NAV ═══════════ */
+        /* ═══════════ NAV — Glass + scale on scroll ═══════════ */
         .nav {
             position:fixed; top:0; left:0; right:0; z-index:100;
             background:rgba(252,250,247,0.72);
             backdrop-filter:blur(14px) saturate(1.4);
             -webkit-backdrop-filter:blur(14px) saturate(1.4);
             border-bottom:1px solid rgba(0,0,0,0.04);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .nav.scrolled {
+            background:rgba(252,250,247,0.92);
+            box-shadow: 0 1px 0 rgba(0,0,0,0.03), 0 8px 24px rgba(0,0,0,0.04);
         }
         .nav-inner { display:flex; align-items:center; justify-content:space-between; height:64px; }
         .nav-logo {
@@ -70,46 +94,99 @@
             display:inline-flex; align-items:center; justify-content:center;
             width:28px; height:28px; background:var(--ink); color:var(--paper);
             font-family:'Noto Serif SC',serif; font-size:15px;
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .nav-cta {
-            font-size:13px; font-weight:500; letter-spacing:0.02em;
-            padding:8px 22px; border:1.5px solid var(--ink);
-            color:var(--ink); text-decoration:none; transition:all 0.2s;
-        }
-        .nav-cta:hover { background:var(--ink); color:var(--paper); }
+        .nav-logo:hover mark { transform: scale(1.1) rotate(-5deg); }
 
-        /* ═══════════ HERO — Story opener ═══════════ */
-        .hero { padding:180px 0 64px; text-align:center; }
-        .hero-chapter {
-            display:inline-block; font-size:10px; letter-spacing:0.36em; text-transform:uppercase;
-            color:var(--accent); font-weight:500; margin-bottom:28px;
-        }
-        .hero h1 { font-size:clamp(2.4rem, 5.5vw, 4rem); max-width:720px; margin:0 auto 20px; }
-        .hero-sub {
-            font-size:17px; color:var(--muted); max-width:480px; margin:0 auto 40px; line-height:1.7;
-        }
+        /* ═══════════ BUTTONS — Press feedback ═══════════ */
         .btn {
             display:inline-flex; align-items:center; gap:8px;
             font-size:13px; font-weight:500; letter-spacing:0.03em;
             padding:14px 32px; background:var(--ink); color:var(--paper);
-            text-decoration:none; transition:background 0.2s;
+            text-decoration:none;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position:relative; overflow:hidden;
         }
-        .btn:hover { background:var(--accent); }
+        .btn::after {
+            content:''; position:absolute; inset:0;
+            background:rgba(255,255,255,0); transition:background 0.3s;
+        }
+        .btn:hover { transform: scale(1.03); }
+        .btn:hover::after { background:rgba(255,255,255,0.06); }
+        .btn:active { transform: scale(0.97); }
         .btn-ghost {
             display:inline-flex; align-items:center; gap:8px;
             font-size:13px; font-weight:500; letter-spacing:0.03em;
             padding:14px 32px; border:1.5px solid var(--warm-2);
-            color:var(--ink-2); text-decoration:none; transition:border-color 0.2s;
+            color:var(--ink-2); text-decoration:none;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .btn-ghost:hover { border-color:var(--ink); }
+        .btn-ghost:hover { border-color:var(--ink); transform: scale(1.02); }
+        .btn-ghost:active { transform: scale(0.97); }
 
-        /* ═══════════ STATS ═══════════ */
+        /* ═══════════ HERO — Parallax text ═══════════ */
+        .hero { padding:180px 0 64px; text-align:center; position:relative; }
+        .hero-chapter {
+            display:inline-block; font-size:10px; letter-spacing:0.36em; text-transform:uppercase;
+            color:var(--accent); font-weight:500; margin-bottom:28px;
+            opacity:0; transform:translateY(16px);
+            animation: springUp 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s forwards;
+        }
+        .hero h1 {
+            font-size:clamp(2.4rem, 5.5vw, 4rem); max-width:720px; margin:0 auto 20px;
+            opacity:0; transform:translateY(20px);
+            animation: springUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.2s forwards;
+        }
+        .hero-sub {
+            font-size:17px; color:var(--muted); max-width:480px; margin:0 auto 40px; line-height:1.7;
+            opacity:0; transform:translateY(16px);
+            animation: springUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.35s forwards;
+        }
+        .hero-actions {
+            opacity:0; transform:translateY(12px);
+            animation: springUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.5s forwards;
+        }
+
+        @keyframes springUp {
+            to { opacity:1; transform:translateY(0); }
+        }
+
+        /* ═══════════ STATS — Animated count ═══════════ */
         .stats-strip { border-top:1px solid var(--warm-2); border-bottom:1px solid var(--warm-2); }
         .stats-inner { display:flex; justify-content:center; gap:80px; padding:40px 0; flex-wrap:wrap; }
-        .stat .num { font-size:2rem; letter-spacing:-0.02em; }
+        @media(max-width:640px){ .stats-inner { gap:36px; } }
+        .stat { text-align:center; }
+        .stat .num {
+            font-size:2rem; letter-spacing:-0.02em;
+            font-variant-numeric: tabular-nums;
+        }
         .stat .desc { font-size:11px; color:var(--muted); letter-spacing:0.12em; text-transform:uppercase; margin-top:4px; }
 
-        /* ═══════════ STORY SECTION ═══════════ */
+        /* ═══════════ SCROLL REVEAL — Staggered spring entrance ═══════════ */
+        .reveal {
+            opacity:0; transform:translateY(36px);
+            transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
+                        transform 0.8s cubic-bezier(0.16,1,0.3,1);
+        }
+        .reveal.visible { opacity:1; transform:translateY(0); }
+        .reveal-children > * {
+            opacity:0; transform:translateY(28px);
+            transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1),
+                        transform 0.7s cubic-bezier(0.16,1,0.3,1);
+        }
+        .reveal-children.visible > *:nth-child(1) { transition-delay:0s; opacity:1; transform:translateY(0); }
+        .reveal-children.visible > *:nth-child(2) { transition-delay:0.08s; opacity:1; transform:translateY(0); }
+        .reveal-children.visible > *:nth-child(3) { transition-delay:0.16s; opacity:1; transform:translateY(0); }
+        .reveal-children.visible > *:nth-child(4) { transition-delay:0.24s; opacity:1; transform:translateY(0); }
+        .reveal-children.visible > *:nth-child(5) { transition-delay:0.32s; opacity:1; transform:translateY(0); }
+        .reveal-children.visible > *:nth-child(6) { transition-delay:0.40s; opacity:1; transform:translateY(0); }
+
+        @media(prefers-reduced-motion:reduce){
+            .reveal, .reveal-children > * { opacity:1; transform:none; transition:none; }
+            .spring, .spring-fast, .spring-bounce { transition:none; }
+        }
+
+        /* ═══════════ STORY GRID ═══════════ */
         .story-grid { display:grid; grid-template-columns:1fr 1fr; gap:64px 48px; align-items:start; }
         @media(max-width:768px){ .story-grid { grid-template-columns:1fr; gap:40px; } }
         .story-num {
@@ -119,26 +196,33 @@
         .story h3 { font-size:1.2rem; font-weight:600; letter-spacing:-0.01em; margin-bottom:10px; }
         .story p { font-size:14px; color:var(--muted); line-height:1.8; }
 
-        /* ═══════════ FOUNDER QUOTE ═══════════ */
+        /* ═══════════ FOUNDER QUOTE — Float animation ═══════════ */
         .quote-block {
-            max-width:760px; margin:0 auto; text-align:center; padding:80px 0;
+            max-width:760px; margin:0 auto; text-align:center; padding:80px 0; position:relative;
+        }
+        .quote-block::before {
+            content:'\201C'; position:absolute; top:20px; left:50%; transform:translateX(-50%);
+            font-family:'DM Serif Display',serif; font-size:8rem; line-height:1;
+            color:var(--warm-2); z-index:-1; opacity:0.5;
         }
         .quote-block blockquote {
             font-family:'DM Serif Display','Noto Serif SC',serif;
             font-size:clamp(1.4rem, 3vw, 2rem); font-weight:400;
             letter-spacing:-0.01em; line-height:1.4; font-style:italic;
-            color:var(--ink);
+            color:var(--ink); position:relative;
         }
         .quote-block footer { font-size:12px; color:var(--muted); letter-spacing:0.08em; margin-top:24px; }
 
-        /* ═══════════ BENTO TECH ═══════════ */
-        .bento { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; }
+        /* ═══════════ BENTO CARDS — Mouse tilt ═══════════ */
+        .bento { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; perspective:1200px; }
         @media(max-width:800px){ .bento { grid-template-columns:1fr; } }
         .bento-card {
             background:var(--warm-1); padding:36px 32px;
-            transition:background 0.3s;
+            transition: transform 0.1s linear, box-shadow 0.3s ease, background 0.3s;
+            position:relative; overflow:hidden;
+            transform-style:preserve-3d;
         }
-        .bento-card:hover { background:var(--warm-2); }
+        .bento-card:hover { box-shadow: 0 12px 40px rgba(0,0,0,0.06); }
         .bento-card.wide { grid-column:span 2; }
         @media(max-width:800px){ .bento-card.wide { grid-column:span 1; } }
         .bento-card h3 { font-size:1.1rem; font-weight:600; letter-spacing:-0.01em; margin-bottom:6px; }
@@ -148,30 +232,52 @@
             font-family:'Geist Mono',monospace; font-size:10px; font-weight:500;
             padding:4px 10px; letter-spacing:0.04em;
             background:var(--paper); color:var(--ink-2); border:1px solid var(--warm-2);
+            transition: transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
         }
+        .bento-tags span:hover { transform: scale(1.08); }
 
-        /* ═══════════ SCREENSHOT WALL ═══════════ */
+        /* ═══════════ SCREENSHOTS — Hover lift ═══════════ */
         .shot-wall { display:flex; flex-wrap:wrap; gap:10px; }
         .shot-item {
             flex:0 0 calc(25% - 7.5px);
             background:var(--warm-1); overflow:hidden;
+            transition: transform 0.4s cubic-bezier(0.16,1,0.3,1),
+                        box-shadow 0.4s cubic-bezier(0.16,1,0.3,1);
+            cursor:default;
         }
         @media(max-width:900px){ .shot-item { flex:0 0 calc(33.333% - 7px); } }
         @media(max-width:600px){ .shot-item { flex:0 0 calc(50% - 5px); } }
+        .shot-item:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 16px 48px rgba(0,0,0,0.1); z-index:2; position:relative;
+        }
         .shot-item img { width:100%; height:auto; display:block; transition:opacity 0.3s; }
-        .shot-item:hover img { opacity:0.86; }
+        .shot-item:hover img { opacity:0.9; }
         .shot-item .shot-label { font-size:10px; letter-spacing:0.06em; color:var(--muted); padding:12px 14px; font-weight:500; }
 
-        /* ═══════════ PRICING ═══════════ */
-        .price-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; max-width:900px; margin:0 auto; }
+        /* ═══════════ PRICING — Card hover depth ═══════════ */
+        .price-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; max-width:900px; margin:0 auto; perspective:1200px; }
         @media(max-width:768px){ .price-row { grid-template-columns:1fr; } }
         .price-plan {
             padding:48px 36px; text-align:center;
             border-right:1px solid var(--warm-2);
+            transition: transform 0.45s cubic-bezier(0.16,1,0.3,1),
+                        box-shadow 0.45s cubic-bezier(0.16,1,0.3,1),
+                        background 0.3s ease;
         }
         .price-plan:last-child { border-right:none; }
         @media(max-width:768px){ .price-plan { border-right:none; border-bottom:1px solid var(--warm-2); } }
-        .price-plan.featured { background:var(--ink); color:var(--paper); border-color:var(--ink); }
+        .price-plan:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 24px 64px rgba(0,0,0,0.08);
+            z-index:1; position:relative;
+        }
+        .price-plan.featured {
+            background:var(--ink); color:var(--paper); border-color:var(--ink);
+        }
+        .price-plan.featured:hover {
+            box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+        }
         .price-plan.featured .label { color:rgba(255,255,255,0.50); }
         .price-plan.featured li { color:rgba(255,255,255,0.68); }
         .price-plan.featured li .dot { background:var(--accent-light); }
@@ -195,16 +301,24 @@
         .contact-grid > div:first-child > p { color:rgba(255,255,255,0.48); font-size:14px; line-height:1.7; }
         .contact-detail { display:flex; gap:40px; margin-top:28px; }
         @media(max-width:400px){ .contact-detail { flex-direction:column; gap:16px; } }
+        .contact-detail div {
+            transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        .contact-detail div:hover { transform: scale(1.05); }
         .contact-detail h4 { font-size:9px; letter-spacing:0.24em; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:4px; }
         .contact-detail span { font-size:16px; font-weight:500; }
 
-        /* ═══════════ TICKER TRUST STRIP ═══════════ */
+        /* ═══════════ TRUST STRIP ═══════════ */
         .trust-strip {
             border-top:1px solid var(--warm-2); border-bottom:1px solid var(--warm-2);
-            padding:28px 0; text-align:center;
+            padding:28px 0; text-align:center; overflow:hidden; position:relative;
         }
         .trust-items { display:flex; justify-content:center; gap:48px; flex-wrap:wrap; }
-        .trust-items span { font-size:12px; color:var(--muted); letter-spacing:0.06em; font-weight:500; }
+        .trust-items span {
+            font-size:12px; color:var(--muted); letter-spacing:0.06em; font-weight:500;
+            transition: color 0.3s;
+        }
+        .trust-items span:hover { color:var(--ink); }
 
         /* ═══════════ FOOTER ═══════════ */
         .site-footer {
@@ -213,19 +327,24 @@
             border-top:1px solid rgba(255,255,255,0.06);
         }
 
-        /* ═══════════ SCROLL REVEAL ═══════════ */
-        .reveal { opacity:0; transform:translateY(24px); transition:all 0.7s cubic-bezier(0.16,1,0.3,1); }
-        .reveal.visible { opacity:1; transform:translateY(0); }
-        @media(prefers-reduced-motion:reduce){ .reveal { opacity:1; transform:none; } }
+        /* ═══════════ NAV MENU MOBILE ═══════════ */
+        .nav-cta {
+            font-size:13px; font-weight:500; letter-spacing:0.02em;
+            padding:8px 22px; border:1.5px solid var(--ink);
+            color:var(--ink); text-decoration:none;
+            transition: all 0.35s cubic-bezier(0.16,1,0.3,1);
+        }
+        .nav-cta:hover { background:var(--ink); color:var(--paper); transform: scale(1.03); }
+        .nav-cta:active { transform: scale(0.97); }
     </style>
 </head>
 <body>
 
     <!-- Nav -->
-    <nav class="nav">
+    <nav class="nav spring" id="navbar">
         <div class="mx nav-inner">
             <a href="#" class="nav-logo"><mark>栖</mark>QIWU</a>
-            <a href="#pricing" class="nav-cta">获取源码</a>
+            <a href="#pricing" class="nav-cta spring-fast">获取源码</a>
         </div>
     </nav>
 
@@ -234,28 +353,27 @@
         <span class="hero-chapter">Chapter Zero</span>
         <h1 class="display">我不想再付三百块<br>保证金了。</h1>
         <p class="hero-sub">互站网要我交 300 块才能上架。市面上的电商源码全是 PHP。所以我自己写了一套——用这个时代该用的技术。</p>
-        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
-            <a href="#story" class="btn">读我的故事</a>
-            <a href="#pricing" class="btn-ghost">直接看价格</a>
+        <div class="hero-actions" style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <a href="#story" class="btn spring-fast">读我的故事</a>
+            <a href="#pricing" class="btn-ghost spring-fast">直接看价格</a>
         </div>
     </header>
 
     <!-- Stats -->
-    <div class="stats-strip">
+    <div class="stats-strip reveal" data-delay="0">
         <div class="mx stats-inner">
-            <div class="stat"><div class="num display">60</div><div class="desc">轮迭代</div></div>
-            <div class="stat"><div class="num display">250+</div><div class="desc">测试用例</div></div>
-            <div class="stat"><div class="num display">11</div><div class="desc">层安全防护</div></div>
-            <div class="stat"><div class="num display">1</div><div class="desc">个人完成</div></div>
+            <div class="stat"><div class="num display" data-count="60">0</div><div class="desc">轮迭代</div></div>
+            <div class="stat"><div class="num display" data-count="250">0</div><div class="desc">测试用例</div></div>
+            <div class="stat"><div class="num display" data-count="11">0</div><div class="desc">层安全防护</div></div>
+            <div class="stat"><div class="num display" data-count="1">0</div><div class="desc">个人完成</div></div>
         </div>
     </div>
 
     <!-- ═══════════ STORY ═══════════ -->
     <section id="story" class="mx section">
-        <span class="label">The Story</span>
-        <h2 class="display" style="font-size:2.2rem;margin-top:10px;margin-bottom:48px;">为什么会有栖物</h2>
-
-        <div class="story-grid">
+        <span class="label reveal">The Story</span>
+        <h2 class="display reveal" style="font-size:2.2rem;margin-top:10px;margin-bottom:48px;">为什么会有栖物</h2>
+        <div class="story-grid reveal-children">
             <div class="story">
                 <div class="story-num">01</div>
                 <h3>三百块钱的念头</h3>
@@ -280,15 +398,15 @@
     </section>
 
     <!-- ═══════════ FOUNDER QUOTE ═══════════ -->
-    <div class="mx">
+    <div class="mx reveal">
         <div class="quote-block">
             <blockquote>"我不是公司，不是团队，只是一个觉得市面上的电商源码不够好的开发者。六十轮迭代之后，我觉得它够好了。"</blockquote>
-            <footer>— 栖物的创建者，2025 年 5 月</footer>
+            <footer>&mdash; 栖物的创建者，2025 年 5 月</footer>
         </div>
     </div>
 
     <!-- ═══════════ TRUST STRIP ═══════════ -->
-    <div class="trust-strip">
+    <div class="trust-strip reveal">
         <div class="mx trust-items">
             <span>TypeScript Strict Mode</span>
             <span>Docker 一条命令部署</span>
@@ -303,25 +421,25 @@
 
     <!-- ═══════════ TECH BENTO ═══════════ -->
     <section class="mx section">
-        <span class="label">Technology</span>
-        <h2 class="display" style="font-size:2.2rem;margin-top:10px;margin-bottom:40px;">用这个时代的技术</h2>
-        <div class="bento">
-            <div class="bento-card">
+        <span class="label reveal">Technology</span>
+        <h2 class="display reveal" style="font-size:2.2rem;margin-top:10px;margin-bottom:40px;">用这个时代的技术</h2>
+        <div class="bento reveal-children">
+            <div class="bento-card spring" data-tilt>
                 <h3>前端 &middot; 9 个页面</h3>
                 <p>React 19 + Vite 8 + Tailwind CSS 4。首页、商品列表、详情、购物车、结算、登录注册、个人中心、收藏夹、搜索。</p>
                 <div class="bento-tags"><span>React 19</span><span>Vite 8</span><span>Tailwind 4</span><span>PWA</span></div>
             </div>
-            <div class="bento-card">
+            <div class="bento-card spring" data-tilt>
                 <h3>后端 &middot; 57 个端点</h3>
                 <p>Express + TypeScript strict mode。JWT 双 token 认证、Zod 全端点校验、LRU 缓存防雪崩、乐观锁防超卖。</p>
                 <div class="bento-tags"><span>Express 4</span><span>TypeScript</span><span>JWT</span><span>Zod</span></div>
             </div>
-            <div class="bento-card">
+            <div class="bento-card spring" data-tilt>
                 <h3>管理后台 &middot; 9 个页面</h3>
                 <p>独立 React 面板。商品 CRUD、订单状态流转、4 级角色管理、优惠券/促销系统、操作日志全审计。</p>
                 <div class="bento-tags"><span>React 19</span><span>Dashboard</span><span>RBAC</span></div>
             </div>
-            <div class="bento-card wide">
+            <div class="bento-card wide spring" data-tilt>
                 <h3>基础设施</h3>
                 <p>Docker + Nginx 容器化、SQLite WAL 模式零配置、vitest + Playwright 全链路测试、GitHub Actions CI/CD、Swagger UI 自动生成 API 文档。</p>
                 <div class="bento-tags"><span>Docker</span><span>Nginx</span><span>SQLite</span><span>Vitest</span><span>Playwright</span><span>Swagger</span><span>CI/CD</span></div>
@@ -331,12 +449,12 @@
 
     <!-- ═══════════ SCREENSHOTS ═══════════ -->
     <section class="mx section">
-        <span class="label">Interface</span>
-        <h2 class="display" style="font-size:2.2rem;margin-top:10px;margin-bottom:40px;">界面即承诺</h2>
-        <p style="font-size:14px;color:var(--muted);margin-bottom:36px;max-width:480px;">
+        <span class="label reveal">Interface</span>
+        <h2 class="display reveal" style="font-size:2.2rem;margin-top:10px;margin-bottom:12px;">界面即承诺</h2>
+        <p class="reveal" style="font-size:14px;color:var(--muted);margin-bottom:36px;max-width:480px;">
             不是 Mockup，不是原型图。这些是运行中的栖物电商系统真实截图。
         </p>
-        <div class="shot-wall">
+        <div class="shot-wall reveal-children">
             <div class="shot-item"><img src="screenshots/01-首页.png" alt="首页" loading="lazy"><div class="shot-label">首页</div></div>
             <div class="shot-item"><img src="screenshots/02-商品列表.png" alt="商品列表" loading="lazy"><div class="shot-label">商品列表</div></div>
             <div class="shot-item"><img src="screenshots/03-商品详情.png" alt="商品详情" loading="lazy"><div class="shot-label">商品详情</div></div>
@@ -354,9 +472,9 @@
 
     <!-- ═══════════ FAQ ═══════════ -->
     <section class="mx section" style="padding-top:0;">
-        <span class="label">FAQ</span>
-        <h2 class="display" style="font-size:2.2rem;margin-top:10px;margin-bottom:40px;">你可能想问的</h2>
-        <div class="story-grid">
+        <span class="label reveal">FAQ</span>
+        <h2 class="display reveal" style="font-size:2.2rem;margin-top:10px;margin-bottom:40px;">你可能想问的</h2>
+        <div class="story-grid reveal-children">
             <div class="story"><h3>不懂 Node.js 能部署吗？</h3><p>能。Docker 一条命令部署，也支持传统 npm 方式。选购安装服务可远程协助完成。</p></div>
             <div class="story"><h3>源码有加密或后门吗？</h3><p>完全没有。纯净 TypeScript 源码，无授权验证、无后门、无加密，100% 自由查看修改。</p></div>
             <div class="story"><h3>能用 MySQL 替代 SQLite 吗？</h3><p>可以。内置 DB 抽象层，支持切换到 MySQL 或 PostgreSQL。</p></div>
@@ -367,12 +485,12 @@
     </section>
 
     <!-- ═══════════ PRICING ═══════════ -->
-    <section id="pricing" class="mx section">
+    <section id="pricing" class="mx section reveal-children">
         <span class="label">Pricing</span>
         <h2 class="display" style="font-size:2.2rem;margin-top:10px;margin-bottom:12px;">获取源码</h2>
         <p style="text-align:center;font-size:14px;color:var(--muted);margin-bottom:48px;">源码在 GitHub 上公开，满意再买。不需要押金，不需要信任成本。</p>
         <div class="price-row">
-            <div class="price-plan">
+            <div class="price-plan spring">
                 <h3>标准版</h3>
                 <span class="mono">一次性</span>
                 <div class="amount">&yen;299</div>
@@ -384,7 +502,7 @@
                     <li><span class="dot muted"></span>定制开发</li>
                 </ul>
             </div>
-            <div class="price-plan featured">
+            <div class="price-plan featured spring">
                 <h3>高级版</h3>
                 <span class="mono">一次性</span>
                 <div class="amount">&yen;599</div>
@@ -396,7 +514,7 @@
                     <li><span class="dot muted"></span>定制开发</li>
                 </ul>
             </div>
-            <div class="price-plan">
+            <div class="price-plan spring">
                 <h3>定制版</h3>
                 <span class="mono">起步价</span>
                 <div class="amount">&yen;1,200</div>
@@ -412,7 +530,7 @@
     </section>
 
     <!-- ═══════════ CONTACT ═══════════ -->
-    <section class="contact-section section">
+    <section class="contact-section section reveal">
         <div class="mx contact-grid">
             <div>
                 <h2 class="display">不用交 300 块押金。</h2>
@@ -439,11 +557,112 @@
         <div class="mx">QIWU Ecommerce &copy; 2026 &middot; Built by one person, with sixty iterations of care.</div>
     </footer>
 
+<!-- ═══════════ ANIMATION ENGINE ═══════════ -->
 <script>
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+(function(){
+'use strict';
+
+// ─── 1. Spring physics helper ─────────────────────────
+// Based on Apple's spring animation model (mass=1, stiffness, damping)
+function springTo(t, stiffness, damping) {
+    stiffness = stiffness || 180;
+    damping = damping || 20;
+    var c = damping;
+    var k = stiffness;
+    var m = 1;
+    var discriminant = c*c - 4*m*k;
+    if (discriminant > 0) {
+        var r1 = (-c + Math.sqrt(discriminant)) / (2*m);
+        var r2 = (-c - Math.sqrt(discriminant)) / (2*m);
+        return (1 - Math.exp(r1 * t)) / (1 - Math.exp(r1 * 0.3));
+    }
+    var omega = Math.sqrt(4*m*k - c*c) / (2*m);
+    var decay = c / (2*m);
+    return 1 - Math.exp(-decay * t) * Math.cos(omega * t);
+}
+
+// ─── 2. Scroll reveal ────────────────────────────────
+var observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            // Trigger count animation for stat numbers
+            var counters = entry.target.querySelectorAll('[data-count]');
+            counters.forEach(function(el) { animateCount(el); });
+        }
+    });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal, .reveal-children').forEach(function(el) {
+    observer.observe(el);
+});
+
+// ─── 3. Animated number counting ──────────────────────
+function animateCount(el) {
+    if (el.dataset.animated) return;
+    el.dataset.animated = '1';
+    var target = parseInt(el.dataset.count);
+    var suffix = el.textContent.replace(/[0-9]/g, '').trim();
+    var start = 0;
+    var duration = 1500;
+    var startTime = null;
+
+    function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = Math.min((timestamp - startTime) / duration, 1);
+        // Apple-style ease-out curve
+        var eased = 1 - Math.pow(1 - progress, 3);
+        var current = Math.round(eased * target);
+        el.textContent = current + (suffix ? ' ' + suffix : '');
+        if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+}
+
+// Trigger visible counters on load
+document.querySelectorAll('.reveal.visible [data-count], .stats-strip.visible [data-count]').forEach(function(el) {
+    animateCount(el);
+});
+
+// ─── 4. Mouse-tilt on bento cards ─────────────────────
+document.querySelectorAll('[data-tilt]').forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = e.clientX - rect.left;
+        var y = e.clientY - rect.top;
+        var centerX = rect.width / 2;
+        var centerY = rect.height / 2;
+        var rotateX = ((y - centerY) / centerY) * -4;
+        var rotateY = ((x - centerX) / centerX) * 4;
+        card.style.transform = 'perspective(1200px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale3d(1.01,1.01,1.01)';
+    });
+    card.addEventListener('mouseleave', function() {
+        card.style.transform = 'perspective(1200px) rotateX(0) rotateY(0) scale3d(1,1,1)';
+    });
+});
+
+// ─── 5. Nav scroll effect ─────────────────────────────
+var navbar = document.getElementById('navbar');
+var lastScroll = 0;
+window.addEventListener('scroll', function() {
+    var y = window.scrollY;
+    if (y > 20) navbar.classList.add('scrolled');
+    else navbar.classList.remove('scrolled');
+    lastScroll = y;
+}, { passive: true });
+
+// ─── 6. Check visible stats on load ────────────────────
+window.addEventListener('load', function() {
+    var statsStrip = document.querySelector('.stats-strip');
+    if (statsStrip) {
+        var rect = statsStrip.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+            statsStrip.querySelectorAll('[data-count]').forEach(animateCount);
+        }
+    }
+});
+
+})();
 </script>
 </body>
 </html>
