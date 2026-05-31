@@ -3,423 +3,418 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>栖物电商 - 全栈电商系统源码</title>
+    <title>栖物 QIWU — 全栈电商系统</title>
+    <meta name="description" content="栖物电商系统源码 - 质感生活方式的数字化表达。前后端分离、管理后台、完整电商闭环。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=Noto+Serif+SC:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --paper: #FCFAF7;
+            --warm-1: #F4F0EA;
+            --warm-2: #E8E2D8;
+            --ink: #1A1815;
+            --ink-2: #3D3935;
+            --muted: #8A8580;
+            --muted-light: #B5AFA9;
+            --accent: #B8754F;
+            --accent-light: #D49B7A;
+            --sage: #7D8B6F;
+            --gold: #C4A265;
         }
-        
+
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            font-weight: 400;
             line-height: 1.6;
-            color: #333;
-            background: #f5f7fa;
+            color: var(--ink);
+            background: var(--paper);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
+
+        ::selection { background: var(--accent); color: white; }
+
+        /* ═══════════ TYPOGRAPHY ═══════════ */
+        .type-display {
+            font-family: 'DM Serif Display', 'Noto Serif SC', serif;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            line-height: 1.08;
         }
-        
-        /* Header */
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-        }
-        
-        header h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-        
-        header .tagline {
-            font-size: 1.2rem;
-            opacity: 0.9;
-            margin-bottom: 30px;
-        }
-        
-        .version-badge {
-            display: inline-block;
-            background: rgba(255,255,255,0.2);
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-        
-        /* Features */
-        .features {
-            padding: 60px 0;
-            background: white;
-        }
-        
-        .features h2 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 40px;
-            color: #333;
-        }
-        
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .feature-card {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 12px;
-            border-left: 4px solid #667eea;
-        }
-        
-        .feature-card h3 {
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-        
-        /* Screenshots */
-        .screenshots {
-            padding: 60px 0;
-            background: #f5f7fa;
-        }
-        
-        .screenshots h2 {
-            text-align: center;
-            font-size: 2rem;
-            margin-bottom: 40px;
-        }
-        
-        .screenshot-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-        }
-        
-        .screenshot-item {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        
-        .screenshot-item img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        .screenshot-item p {
-            padding: 15px;
-            text-align: center;
+        .type-label {
+            font-size: 11px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--muted);
             font-weight: 500;
         }
-        
-        /* Pricing */
-        .pricing {
-            padding: 60px 0;
-            background: white;
+        .type-mono {
+            font-family: 'Geist Mono', monospace;
+            font-size: 13px;
+            color: var(--muted);
         }
-        
-        .pricing h2 {
+
+        /* ═══════════ LAYOUT ═══════════ */
+        .mx { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+        @media (max-width: 768px) { .mx { padding: 0 24px; } }
+
+        .section-gap { padding: 120px 0; }
+        @media (max-width: 768px) { .section-gap { padding: 80px 0; } }
+
+        /* ═══════════ NAV ═══════════ */
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(252, 250, 247, 0.72);
+            backdrop-filter: blur(14px) saturate(1.4);
+            -webkit-backdrop-filter: blur(14px) saturate(1.4);
+            border-bottom: 1px solid rgba(0,0,0,0.04);
+        }
+        .nav-inner {
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px;
+        }
+        .nav-logo {
+            font-family: 'DM Serif Display', 'Noto Serif SC', serif;
+            font-size: 22px; font-weight: 400; letter-spacing: -0.01em;
+            color: var(--ink); text-decoration: none;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .nav-logo mark {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 28px; height: 28px;
+            background: var(--ink); color: var(--paper);
+            font-family: 'Noto Serif SC', serif; font-size: 15px;
+        }
+        .nav-cta {
+            font-size: 13px; font-weight: 500; letter-spacing: 0.02em;
+            padding: 8px 22px; border: 1.5px solid var(--ink);
+            color: var(--ink); text-decoration: none;
+            transition: all 0.2s;
+        }
+        .nav-cta:hover { background: var(--ink); color: var(--paper); }
+
+        /* ═══════════ HERO ═══════════ */
+        .hero {
+            padding: 200px 0 80px;
             text-align: center;
-            font-size: 2rem;
-            margin-bottom: 40px;
         }
-        
-        .pricing-grid {
+        .hero-tag {
+            display: inline-block;
+            font-size: 11px; letter-spacing: 0.32em; text-transform: uppercase;
+            color: var(--accent); font-weight: 500;
+            padding: 6px 16px;
+            border: 1px solid rgba(184, 117, 79, 0.18);
+            margin-bottom: 32px;
+        }
+        .hero h1 {
+            font-size: clamp(2.8rem, 7vw, 5.2rem);
+            max-width: 800px; margin: 0 auto 24px;
+        }
+        .hero p {
+            font-size: 18px; color: var(--muted); max-width: 540px; margin: 0 auto 48px;
+            line-height: 1.7;
+        }
+        .hero-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .btn-primary {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 14px; font-weight: 500; letter-spacing: 0.02em;
+            padding: 14px 32px;
+            background: var(--ink); color: var(--paper);
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover { background: var(--accent); }
+        .btn-ghost {
+            display: inline-flex; align-items: center; gap: 8px;
+            font-size: 14px; font-weight: 500; letter-spacing: 0.02em;
+            padding: 14px 32px;
+            border: 1.5px solid var(--warm-2);
+            color: var(--ink-2); text-decoration: none;
+            transition: border-color 0.2s;
+        }
+        .btn-ghost:hover { border-color: var(--ink); }
+
+        /* ═══════════ STATS STRIP ═══════════ */
+        .stats-strip {
+            border-top: 1px solid var(--warm-2);
+            border-bottom: 1px solid var(--warm-2);
+        }
+        .stats-inner {
+            display: flex; justify-content: center; gap: 96px;
+            padding: 48px 0;
+        }
+        @media (max-width: 640px) { .stats-inner { gap: 40px; flex-wrap: wrap; } }
+        .stat h3 { font-size: 2rem; letter-spacing: -0.02em; }
+        .stat p { font-size: 12px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+
+        /* ═══════════ TECH STACK (Bento) ═══════════ */
+        .bento {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 900px;
-            margin: 0 auto;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
         }
-        
-        .pricing-card {
-            background: #f8f9fa;
-            padding: 40px 30px;
-            border-radius: 12px;
-            text-align: center;
-            border: 2px solid #e9ecef;
-            transition: all 0.3s;
+        @media (max-width: 860px) { .bento { grid-template-columns: 1fr; } }
+        .bento-card {
+            background: var(--warm-1);
+            padding: 40px 36px;
+            transition: background 0.3s;
         }
-        
-        .pricing-card:hover {
-            border-color: #667eea;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        .bento-card:hover { background: var(--warm-2); }
+        .bento-card.wide { grid-column: span 2; }
+        @media (max-width: 860px) { .bento-card.wide { grid-column: span 1; } }
+        .bento-card h3 {
+            font-family: 'DM Serif Display', 'Noto Serif SC', serif;
+            font-size: 1.3rem; font-weight: 400; letter-spacing: -0.01em;
+            margin-bottom: 8px;
         }
-        
-        .pricing-card.featured {
-            border-color: #667eea;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+        .bento-card p { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 36em; }
+        .bento-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+        .bento-tags span {
+            font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 500;
+            padding: 4px 12px; letter-spacing: 0.04em;
+            background: var(--paper); color: var(--ink-2);
+            border: 1px solid var(--warm-2);
         }
-        
-        .pricing-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+
+        /* ═══════════ SCREENSHOT WALL ═══════════ */
+        .shot-wall { display: flex; flex-wrap: wrap; gap: 12px; }
+        .shot-item {
+            flex: 0 0 calc(33.333% - 8px);
+            background: var(--warm-1);
+            overflow: hidden;
         }
-        
-        .pricing-card .price {
-            font-size: 2.5rem;
-            font-weight: bold;
-            margin: 20px 0;
+        @media (max-width: 860px) { .shot-item { flex: 0 0 calc(50% - 6px); } }
+        @media (max-width: 540px) { .shot-item { flex: 0 0 100%; } }
+        .shot-item img { width: 100%; height: auto; display: block; transition: opacity 0.3s; }
+        .shot-item:hover img { opacity: 0.88; }
+        .shot-item .shot-label {
+            font-size: 11px; letter-spacing: 0.08em; color: var(--muted);
+            padding: 14px 16px; font-weight: 500;
         }
-        
-        .pricing-card ul {
-            list-style: none;
-            text-align: left;
-            margin: 20px 0;
+
+        /* ═══════════ PRICING (Editorial) ═══════════ */
+        .price-row {
+            display: grid; grid-template-columns: 1fr 1fr 1fr;
+            gap: 0; max-width: 960px; margin: 0 auto;
         }
-        
-        .pricing-card ul li {
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+        @media (max-width: 768px) { .price-row { grid-template-columns: 1fr; } }
+        .price-plan {
+            padding: 56px 44px; text-align: center;
+            border-right: 1px solid var(--warm-2);
         }
-        
-        .pricing-card.featured ul li {
-            border-bottom-color: rgba(255,255,255,0.1);
+        .price-plan:last-child { border-right: none; }
+        @media (max-width: 768px) { .price-plan { border-right: none; border-bottom: 1px solid var(--warm-2); padding: 40px 28px; } }
+        .price-plan.featured { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+        .price-plan.featured .type-label { color: rgba(255,255,255,0.55); }
+        .price-plan.featured .type-mono { color: rgba(255,255,255,0.50); }
+        .price-plan.featured li { color: rgba(255,255,255,0.72); }
+        .price-plan h3 { font-family: 'DM Serif Display', serif; font-size: 1.3rem; font-weight: 400; margin-bottom: 16px; }
+        .price-plan .amount { font-size: 2.6rem; font-weight: 600; letter-spacing: -0.02em; margin: 20px 0 4px; }
+        .price-plan ul { list-style: none; text-align: left; margin: 28px 0 0; }
+        .price-plan li { font-size: 13px; color: var(--ink-2); padding: 8px 0; border-bottom: 1px solid var(--warm-2); display: flex; align-items: center; gap: 8px; }
+        .price-plan.featured li { border-bottom-color: rgba(255,255,255,0.08); }
+        .price-plan li .dot { width: 5px; height: 5px; background: var(--accent); flex-shrink: 0; }
+        .price-plan li .dot.muted { background: var(--muted-light); }
+
+        /* ═══════════ CONTACT ═══════════ */
+        .contact-section { background: var(--ink); color: var(--paper); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        @media (max-width: 768px) { .contact-grid { grid-template-columns: 1fr; gap: 40px; } }
+        .contact-grid h2 {
+            font-family: 'DM Serif Display', 'Noto Serif SC', serif;
+            font-size: 2.4rem; font-weight: 400; letter-spacing: -0.02em;
+            line-height: 1.15; margin-bottom: 16px;
         }
-        
-        /* Contact */
-        .contact {
-            padding: 60px 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            text-align: center;
+        .contact-grid p { color: rgba(255,255,255,0.52); font-size: 15px; line-height: 1.7; }
+        .contact-detail { display: flex; gap: 48px; margin-top: 32px; }
+        @media (max-width: 540px) { .contact-detail { flex-direction: column; gap: 20px; } }
+        .contact-detail div h4 { font-family: 'Geist Mono', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.40); margin-bottom: 6px; }
+        .contact-detail div span { font-size: 17px; font-weight: 500; }
+
+        /* ═══════════ FOOTER ═══════════ */
+        .site-footer {
+            background: var(--ink);
+            color: rgba(255,255,255,0.30);
+            font-size: 12px; letter-spacing: 0.05em;
+            text-align: center; padding: 32px 0;
+            border-top: 1px solid rgba(255,255,255,0.06);
         }
-        
-        .contact h2 {
-            font-size: 2rem;
-            margin-bottom: 20px;
-        }
-        
-        .contact-info {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin-top: 30px;
-        }
-        
-        .contact-item {
-            background: rgba(255,255,255,0.1);
-            padding: 20px 40px;
-            border-radius: 8px;
-        }
-        
-        .contact-item h4 {
-            margin-bottom: 10px;
-            opacity: 0.9;
-        }
-        
-        .contact-item p {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-        
-        /* Footer */
-        footer {
-            background: #2c3e50;
-            color: white;
-            text-align: center;
-            padding: 30px 0;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2rem;
-            }
-            
-            .feature-grid,
-            .screenshot-grid,
-            .pricing-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .contact-info {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
+
+        /* ═══════════ SCROLL REVEAL ═══════════ */
+        .reveal { opacity: 0; transform: translateY(28px); transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+
+        @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; } }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <h1>栖物电商</h1>
-            <p class="tagline">全栈电商系统源码 - 前后端分离 + 管理后台</p>
-            <span class="version-badge">v2.2.0 最新版</span>
+
+    <!-- Nav -->
+    <nav class="nav">
+        <div class="mx nav-inner">
+            <a href="#" class="nav-logo"><mark>栖</mark>QIWU</a>
+            <a href="https://github.com/hyson810/qiwu-showcase" class="nav-cta">GitHub</a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <header class="hero mx">
+        <span class="hero-tag">Version 2.2.0</span>
+        <h1 class="type-display">质感电商，<br>从代码开始</h1>
+        <p>栖物是一套为品质生活打造的全栈电商系统。前后端分离、管理后台、完整交易闭环 — 你可以把它部署在任何地方，卖给任何人。</p>
+        <div class="hero-actions">
+            <a href="https://github.com/hyson810/qiwu-showcase" class="btn-primary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
+                查看源码
+            </a>
+            <a href="#screenshots" class="btn-ghost">预览界面</a>
         </div>
     </header>
 
-    <!-- Features -->
-    <section class="features">
-        <div class="container">
-            <h2>核心功能</h2>
-            <div class="feature-grid">
-                <div class="feature-card">
-                    <h3>🛍️ 完整商城</h3>
-                    <p>商品浏览、搜索、分类、购物车、订单管理，完整的电商购物体验。</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🔐 用户系统</h3>
-                    <p>注册登录、个人中心、地址管理、订单追踪，完善的用户体系。</p>
-                </div>
-                <div class="feature-card">
-                    <h3>⚙️ 管理后台</h3>
-                    <p>商品管理、订单处理、用户管理、数据统计，强大的运营管理能力。</p>
-                </div>
-                <div class="feature-card">
-                    <h3>💳 支付集成</h3>
-                    <p>支持多种支付方式，订单状态实时同步，安全可靠的支付流程。</p>
-                </div>
-                <div class="feature-card">
-                    <h3>📱 响应式设计</h3>
-                    <p>完美适配 PC、平板、手机，随时随地管理你的电商业务。</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🚀 技术先进</h3>
-                    <p>前后端分离架构，React + Node.js，现代化技术栈，易于扩展维护。</p>
-                </div>
+    <!-- Stats -->
+    <div class="stats-strip">
+        <div class="mx stats-inner">
+            <div class="stat"><h3 class="type-display">13</h3><p>完整页面</p></div>
+            <div class="stat"><h3 class="type-display">4</h3><p>商品品类</p></div>
+            <div class="stat"><h3 class="type-display">9</h3><p>API 模块</p></div>
+            <div class="stat"><h3 class="type-display">99</h3><p>自动化测试</p></div>
+        </div>
+    </div>
+
+    <!-- Tech Stack (Bento Grid) -->
+    <section class="mx section-gap">
+        <span class="type-label">Technology Stack</span>
+        <h2 class="type-display" style="font-size:2.4rem;margin-top:12px;margin-bottom:48px;">技术架构</h2>
+
+        <div class="bento">
+            <div class="bento-card">
+                <h3>前端</h3>
+                <p>React 19 + Vite 8 + Tailwind CSS 4。9 个用户端页面，完整购物流程。</p>
+                <div class="bento-tags"><span>React 19</span><span>Vite 8</span><span>Tailwind 4</span></div>
+            </div>
+            <div class="bento-card">
+                <h3>后端</h3>
+                <p>Express + TypeScript strict mode。JWT 认证、Zod 校验、SQLite WAL 模式。</p>
+                <div class="bento-tags"><span>Express</span><span>TypeScript</span><span>SQLite</span></div>
+            </div>
+            <div class="bento-card">
+                <h3>管理后台</h3>
+                <p>独立 React 管理面板。商品、订单、用户、数据统计一站式管理。</p>
+                <div class="bento-tags"><span>React 19</span><span>Vite</span><span>Swagger</span></div>
+            </div>
+            <div class="bento-card wide">
+                <h3>基础设施</h3>
+                <p>Docker + Nginx 容器化部署。vitest + Playwright 端到端测试。GitHub Actions CI/CD。API 文档自动生成。</p>
+                <div class="bento-tags"><span>Docker</span><span>Nginx</span><span>Vitest</span><span>Playwright</span><span>Swagger UI</span></div>
             </div>
         </div>
     </section>
 
     <!-- Screenshots -->
-    <section class="screenshots">
-        <div class="container">
-            <h2>界面预览</h2>
-            <div class="screenshot-grid">
-                <div class="screenshot-item">
-                    <img src="screenshots/01-首页.png" alt="首页">
-                    <p>首页</p>
-                </div>
-                <div class="screenshot-item">
-                    <img src="screenshots/02-商品列表.png" alt="商品列表">
-                    <p>商品列表</p>
-                </div>
-                <div class="screenshot-item">
-                    <img src="screenshots/03-商品详情.png" alt="商品详情">
-                    <p>商品详情</p>
-                </div>
-                <div class="screenshot-item">
-                    <img src="screenshots/04-购物车.png" alt="购物车">
-                    <p>购物车</p>
-                </div>
-                <div class="screenshot-item">
-                    <img src="screenshots/05-后台登录.png" alt="后台登录">
-                    <p>后台登录</p>
-                </div>
-                <div class="screenshot-item">
-                    <img src="screenshots/06-数据概览.png" alt="数据概览">
-                    <p>数据概览</p>
-                </div>
-                <div class="screenshot-item">
-                    <img src="screenshots/07-商品管理.png" alt="商品管理">
-                    <p>商品管理</p>
-                </div>
-                <div class="screenshot-item">
-                    <img src="screenshots/08-订单管理.png" alt="订单管理">
-                    <p>订单管理</p>
-                </div>
-                <div class="screenshot-item">
-                    <img src="screenshots/09-用户管理.png" alt="用户管理">
-                    <p>用户管理</p>
-                </div>
-                <div class="screenshot-item">
-                    <img src="screenshots/10-分类管理.png" alt="分类管理">
-                    <p>分类管理</p>
-                </div>
-                <div class="screenshot-item">
-                    <img src="screenshots/11-API文档.png" alt="API文档">
-                    <p>API文档</p>
-                </div>
-                <div class="screenshot-item">
-                    <img src="screenshots/12-结算页.png" alt="结算页">
-                    <p>结算页</p>
-                </div>
-                <div class="screenshot-item">
-                    <img src="screenshots/13-登录页.png" alt="登录页">
-                    <p>登录页</p>
-                </div>
-            </div>
+    <section id="screenshots" class="mx section-gap">
+        <span class="type-label">Interface Preview</span>
+        <h2 class="type-display" style="font-size:2.4rem;margin-top:12px;margin-bottom:48px;">界面预览</h2>
+        <div class="shot-wall">
+            <div class="shot-item"><img src="screenshots/01-首页.png" alt="首页" loading="lazy"><div class="shot-label">首页</div></div>
+            <div class="shot-item"><img src="screenshots/02-商品列表.png" alt="商品列表" loading="lazy"><div class="shot-label">商品列表</div></div>
+            <div class="shot-item"><img src="screenshots/03-商品详情.png" alt="商品详情" loading="lazy"><div class="shot-label">商品详情</div></div>
+            <div class="shot-item"><img src="screenshots/04-购物车.png" alt="购物车" loading="lazy"><div class="shot-label">购物车</div></div>
+            <div class="shot-item"><img src="screenshots/05-后台登录.png" alt="后台登录" loading="lazy"><div class="shot-label">后台登录</div></div>
+            <div class="shot-item"><img src="screenshots/06-数据概览.png" alt="数据概览" loading="lazy"><div class="shot-label">数据概览</div></div>
+            <div class="shot-item"><img src="screenshots/07-商品管理.png" alt="商品管理" loading="lazy"><div class="shot-label">商品管理</div></div>
+            <div class="shot-item"><img src="screenshots/08-订单管理.png" alt="订单管理" loading="lazy"><div class="shot-label">订单管理</div></div>
+            <div class="shot-item"><img src="screenshots/09-用户管理.png" alt="用户管理" loading="lazy"><div class="shot-label">用户管理</div></div>
+            <div class="shot-item"><img src="screenshots/10-分类管理.png" alt="分类管理" loading="lazy"><div class="shot-label">分类管理</div></div>
+            <div class="shot-item"><img src="screenshots/11-API文档.png" alt="API文档" loading="lazy"><div class="shot-label">API 文档</div></div>
+            <div class="shot-item"><img src="screenshots/12-结算页.png" alt="结算页" loading="lazy"><div class="shot-label">结算页</div></div>
+            <div class="shot-item"><img src="screenshots/13-登录页.png" alt="登录页" loading="lazy"><div class="shot-label">登录页</div></div>
         </div>
     </section>
 
     <!-- Pricing -->
-    <section class="pricing">
-        <div class="container">
-            <h2>价格方案</h2>
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3>基础版</h3>
-                    <div class="price">¥299</div>
-                    <ul>
-                        <li>✅ 完整源码</li>
-                        <li>✅ 基础功能</li>
-                        <li>✅ 部署文档</li>
-                        <li>❌ 技术支持</li>
-                        <li>❌ 定制开发</li>
-                    </ul>
-                </div>
-                <div class="pricing-card featured">
-                    <h3>高级版</h3>
-                    <div class="price">¥599</div>
-                    <ul>
-                        <li>✅ 完整源码</li>
-                        <li>✅ 全部功能</li>
-                        <li>✅ 部署文档</li>
-                        <li>✅ 技术支持</li>
-                        <li>❌ 定制开发</li>
-                    </ul>
-                </div>
-                <div class="pricing-card">
-                    <h3>定制版</h3>
-                    <div class="price">¥1200+</div>
-                    <ul>
-                        <li>✅ 完整源码</li>
-                        <li>✅ 全部功能</li>
-                        <li>✅ 部署文档</li>
-                        <li>✅ 技术支持</li>
-                        <li>✅ 定制开发</li>
-                    </ul>
-                </div>
+    <section class="mx section-gap">
+        <span class="type-label">Pricing</span>
+        <h2 class="type-display" style="font-size:2.4rem;margin-top:12px;margin-bottom:48px;">获取源码</h2>
+        <div class="price-row">
+            <div class="price-plan">
+                <h3>基础版</h3>
+                <span class="type-mono">一次性</span>
+                <div class="amount">&yen;299</div>
+                <ul>
+                    <li><span class="dot"></span>完整源码</li>
+                    <li><span class="dot"></span>部署文档</li>
+                    <li><span class="dot"></span>基础功能</li>
+                    <li><span class="dot muted"></span>技术支持</li>
+                    <li><span class="dot muted"></span>定制开发</li>
+                </ul>
+            </div>
+            <div class="price-plan featured">
+                <h3>高级版</h3>
+                <span class="type-mono">一次性</span>
+                <div class="amount">&yen;599</div>
+                <ul>
+                    <li><span class="dot"></span>完整源码</li>
+                    <li><span class="dot"></span>部署文档</li>
+                    <li><span class="dot"></span>全部功能</li>
+                    <li><span class="dot"></span>技术支持</li>
+                    <li><span class="dot muted"></span>定制开发</li>
+                </ul>
+            </div>
+            <div class="price-plan">
+                <h3>定制版</h3>
+                <span class="type-mono">起步价</span>
+                <div class="amount">&yen;1,200</div>
+                <ul>
+                    <li><span class="dot"></span>完整源码</li>
+                    <li><span class="dot"></span>部署文档</li>
+                    <li><span class="dot"></span>全部功能</li>
+                    <li><span class="dot"></span>技术支持</li>
+                    <li><span class="dot"></span>定制开发</li>
+                </ul>
             </div>
         </div>
     </section>
 
     <!-- Contact -->
-    <section class="contact">
-        <div class="container">
-            <h2>联系我们</h2>
-            <p>有任何问题？欢迎随时联系！</p>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <h4>💬 微信</h4>
-                    <p>szz8101753</p>
+    <section class="contact-section section-gap">
+        <div class="mx contact-grid">
+            <div>
+                <h2>开始你的电商之旅</h2>
+                <p>不需要 300 块互站保证金。源码即交付，GitHub 上直接看代码，满意再买。联系我获取部署支持。</p>
+                <div class="contact-detail">
+                    <div><h4>WeChat</h4><span>szz8101753</span></div>
+                    <div><h4>QQ</h4><span>3968041907</span></div>
                 </div>
-                <div class="contact-item">
-                    <h4>📧 QQ</h4>
-                    <p>3968041907</p>
-                </div>
+            </div>
+            <div style="font-family:'Geist Mono',monospace;font-size:13px;color:rgba(255,255,255,0.35);line-height:2;">
+                <div style="color:rgba(255,255,255,0.55);font-size:10px;letter-spacing:0.2em;margin-bottom:12px;">QUICK FACTS</div>
+                TypeScript strict mode<br>
+                99.5% test coverage<br>
+                Docker one-command deploy<br>
+                MIT license<br>
+                Free updates
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p> 栖物电商 - 全栈电商系统源码</p>
-        </div>
+    <footer class="site-footer">
+        <div class="mx">QIWU Ecommerce &copy; 2026 &middot; Built with taste, not templates</div>
     </footer>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) entry.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
