@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>栖物电商 - 全栈电商系统源码</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f7fa;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 0;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header .tagline {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .version-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        /* Features */
+        .features {
+            padding: 60px 0;
+            background: white;
+        }
+        
+        .features h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: #333;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+        
+        /* Screenshots */
+        .screenshots {
+            padding: 60px 0;
+            background: #f5f7fa;
+        }
+        
+        .screenshots h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+        
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+        
+        .screenshot-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .screenshot-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .screenshot-item p {
+            padding: 15px;
+            text-align: center;
+            font-weight: 500;
+        }
+        
+        /* Pricing */
+        .pricing {
+            padding: 60px 0;
+            background: white;
+        }
+        
+        .pricing h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .pricing-card {
+            background: #f8f9fa;
+            padding: 40px 30px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+        }
+        
+        .pricing-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
+        }
+        
+        .pricing-card.featured {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .pricing-card .price {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        
+        .pricing-card ul {
+            list-style: none;
+            text-align: left;
+            margin: 20px 0;
+        }
+        
+        .pricing-card ul li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        .pricing-card.featured ul li {
+            border-bottom-color: rgba(255,255,255,0.1);
+        }
+        
+        /* Contact */
+        .contact {
+            padding: 60px 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .contact h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .contact-item {
+            background: rgba(255,255,255,0.1);
+            padding: 20px 40px;
+            border-radius: 8px;
+        }
+        
+        .contact-item h4 {
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .contact-item p {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        /* Footer */
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            
+            .feature-grid,
+            .screenshot-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1>栖物电商</h1>
+            <p class="tagline">全栈电商系统源码 - 前后端分离 + 管理后台</p>
+            <span class="version-badge">v2.2.0 最新版</span>
+        </div>
+    </header>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="container">
+            <h2>核心功能</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🛍️ 完整商城</h3>
+                    <p>商品浏览、搜索、分类、购物车、订单管理，完整的电商购物体验。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔐 用户系统</h3>
+                    <p>注册登录、个人中心、地址管理、订单追踪，完善的用户体系。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>⚙️ 管理后台</h3>
+                    <p>商品管理、订单处理、用户管理、数据统计，强大的运营管理能力。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💳 支付集成</h3>
+                    <p>支持多种支付方式，订单状态实时同步，安全可靠的支付流程。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📱 响应式设计</h3>
+                    <p>完美适配 PC、平板、手机，随时随地管理你的电商业务。</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🚀 技术先进</h3>
+                    <p>前后端分离架构，React + Node.js，现代化技术栈，易于扩展维护。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="screenshots">
+        <div class="container">
+            <h2>界面预览</h2>
+            <div class="screenshot-grid">
+                <div class="screenshot-item">
+                    <img src="screenshots/01-首页.png" alt="首页">
+                    <p>首页</p>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/02-商品列表.png" alt="商品列表">
+                    <p>商品列表</p>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/03-商品详情.png" alt="商品详情">
+                    <p>商品详情</p>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/04-购物车.png" alt="购物车">
+                    <p>购物车</p>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/05-后台登录.png" alt="后台登录">
+                    <p>后台登录</p>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/06-数据概览.png" alt="数据概览">
+                    <p>数据概览</p>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/07-商品管理.png" alt="商品管理">
+                    <p>商品管理</p>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/08-订单管理.png" alt="订单管理">
+                    <p>订单管理</p>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/09-用户管理.png" alt="用户管理">
+                    <p>用户管理</p>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/10-分类管理.png" alt="分类管理">
+                    <p>分类管理</p>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/11-API文档.png" alt="API文档">
+                    <p>API文档</p>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/12-结算页.png" alt="结算页">
+                    <p>结算页</p>
+                </div>
+                <div class="screenshot-item">
+                    <img src="screenshots/13-登录页.png" alt="登录页">
+                    <p>登录页</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing">
+        <div class="container">
+            <h2>价格方案</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>基础版</h3>
+                    <div class="price">¥299</div>
+                    <ul>
+                        <li>✅ 完整源码</li>
+                        <li>✅ 基础功能</li>
+                        <li>✅ 部署文档</li>
+                        <li>❌ 技术支持</li>
+                        <li>❌ 定制开发</li>
+                    </ul>
+                </div>
+                <div class="pricing-card featured">
+                    <h3>高级版</h3>
+                    <div class="price">¥599</div>
+                    <ul>
+                        <li>✅ 完整源码</li>
+                        <li>✅ 全部功能</li>
+                        <li>✅ 部署文档</li>
+                        <li>✅ 技术支持</li>
+                        <li>❌ 定制开发</li>
+                    </ul>
+                </div>
+                <div class="pricing-card">
+                    <h3>定制版</h3>
+                    <div class="price">¥1200+</div>
+                    <ul>
+                        <li>✅ 完整源码</li>
+                        <li>✅ 全部功能</li>
+                        <li>✅ 部署文档</li>
+                        <li>✅ 技术支持</li>
+                        <li>✅ 定制开发</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="contact">
+        <div class="container">
+            <h2>联系我们</h2>
+            <p>有任何问题？欢迎随时联系！</p>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <h4>💬 微信</h4>
+                    <p>szz8101753</p>
+                </div>
+                <div class="contact-item">
+                    <h4>📧 QQ</h4>
+                    <p>3968041907</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p> 栖物电商 - 全栈电商系统源码</p>
+        </div>
+    </footer>
+</body>
+</html>
