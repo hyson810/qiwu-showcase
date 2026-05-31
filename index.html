@@ -41,7 +41,12 @@
         }
 
         /* Content sits above canvas */
-        .content-layer { position:relative; z-index:1; }
+        .content-layer {
+            position:relative; z-index:1;
+            transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+            transform-origin: center 30vh;
+            will-change: transform;
+        }
 
         ::selection { background: var(--accent); color: white; }
 
@@ -167,8 +172,8 @@
         /* ═══════════ 3D SCROLL REVEAL ═══════════ */
         .reveal-3d {
             opacity:0;
-            transform: perspective(1200px) rotateX(5deg) translateY(60px) scale(0.92);
-            filter:blur(5px);
+            transform: perspective(1200px) rotateX(6deg) translateY(72px) scale(0.90);
+            filter:blur(6px);
             transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1),
                         transform 0.9s cubic-bezier(0.16,1,0.3,1),
                         filter 0.7s cubic-bezier(0.16,1,0.3,1);
@@ -177,8 +182,8 @@
 
         .reveal-stagger > * {
             opacity:0;
-            transform: perspective(1000px) rotateY(6deg) translateY(50px) scale(0.90);
-            filter:blur(4px);
+            transform: perspective(1000px) rotateY(7deg) translateY(60px) scale(0.88);
+            filter:blur(5px);
             transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1),
                         transform 0.8s cubic-bezier(0.16,1,0.3,1),
                         filter 0.65s cubic-bezier(0.16,1,0.3,1);
@@ -224,7 +229,7 @@
 
         /* ═══════════ SCREENSHOTS ═══════════ */
         .shot-wall { display:flex; flex-wrap:wrap; gap:10px; }
-        .shot-item { flex:0 0 calc(25% - 7.5px); background:var(--warm-1); overflow:hidden; transition: transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s cubic-bezier(0.16,1,0.3,1), filter 0.3s ease; cursor:default; }
+        .shot-item { flex:0 0 calc(25% - 7.5px); background:var(--warm-1); overflow:hidden; transition: box-shadow 0.45s cubic-bezier(0.16,1,0.3,1), filter 0.3s ease; cursor:default; }
         @media(max-width:900px){ .shot-item { flex:0 0 calc(33.333% - 7px); } }
         @media(max-width:600px){ .shot-item { flex:0 0 calc(50% - 5px); } }
         .shot-item:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 24px 64px rgba(0,0,0,0.12); z-index:2; position:relative; filter:brightness(1.05); }
@@ -235,7 +240,7 @@
         /* ═══════════ PRICING ═══════════ */
         .price-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; max-width:900px; margin:0 auto; perspective:1200px; }
         @media(max-width:768px){ .price-row { grid-template-columns:1fr; } }
-        .price-plan { padding:48px 36px; text-align:center; border-right:1px solid var(--warm-2); transition: transform 0.45s cubic-bezier(0.16,1,0.3,1), box-shadow 0.45s cubic-bezier(0.16,1,0.3,1), filter 0.35s ease; }
+        .price-plan { padding:48px 36px; text-align:center; border-right:1px solid var(--warm-2); transition: box-shadow 0.45s cubic-bezier(0.16,1,0.3,1), filter 0.35s ease; }
         .price-plan:last-child { border-right:none; }
         @media(max-width:768px){ .price-plan { border-right:none; border-bottom:1px solid var(--warm-2); } }
         .price-plan:hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 32px 80px rgba(0,0,0,0.10); z-index:1; position:relative; filter:brightness(1.03); }
@@ -356,18 +361,18 @@
         <h2 class="display reveal-3d" style="font-size:2.2rem;margin-top:10px;margin-bottom:12px;">界面即承诺</h2>
         <p class="reveal-3d" style="font-size:14px;color:var(--muted);margin-bottom:36px;max-width:480px;">不是 Mockup，不是原型图。这些是运行中的栖物电商系统真实截图。</p>
         <div class="shot-wall reveal-stagger">
-            <div class="shot-item"><img src="screenshots/01-首页.png" alt="首页" loading="lazy"><div class="shot-label">首页</div></div>
-            <div class="shot-item"><img src="screenshots/02-商品列表.png" alt="商品列表" loading="lazy"><div class="shot-label">商品列表</div></div>
-            <div class="shot-item"><img src="screenshots/03-商品详情.png" alt="商品详情" loading="lazy"><div class="shot-label">商品详情</div></div>
-            <div class="shot-item"><img src="screenshots/04-购物车.png" alt="购物车" loading="lazy"><div class="shot-label">购物车</div></div>
-            <div class="shot-item"><img src="screenshots/05-后台登录.png" alt="后台登录" loading="lazy"><div class="shot-label">后台登录</div></div>
-            <div class="shot-item"><img src="screenshots/06-数据概览.png" alt="数据概览" loading="lazy"><div class="shot-label">数据概览</div></div>
-            <div class="shot-item"><img src="screenshots/07-商品管理.png" alt="商品管理" loading="lazy"><div class="shot-label">商品管理</div></div>
-            <div class="shot-item"><img src="screenshots/08-订单管理.png" alt="订单管理" loading="lazy"><div class="shot-label">订单管理</div></div>
-            <div class="shot-item"><img src="screenshots/09-用户管理.png" alt="用户管理" loading="lazy"><div class="shot-label">用户管理</div></div>
-            <div class="shot-item"><img src="screenshots/10-分类管理.png" alt="分类管理" loading="lazy"><div class="shot-label">分类管理</div></div>
-            <div class="shot-item"><img src="screenshots/11-API文档.png" alt="API文档" loading="lazy"><div class="shot-label">API 文档</div></div>
-            <div class="shot-item"><img src="screenshots/12-结算页.png" alt="结算页" loading="lazy"><div class="shot-label">结算页</div></div>
+            <div class="shot-item" data-tilt><img src="screenshots/01-首页.png" alt="首页" loading="lazy"><div class="shot-label">首页</div></div>
+            <div class="shot-item" data-tilt><img src="screenshots/02-商品列表.png" alt="商品列表" loading="lazy"><div class="shot-label">商品列表</div></div>
+            <div class="shot-item" data-tilt><img src="screenshots/03-商品详情.png" alt="商品详情" loading="lazy"><div class="shot-label">商品详情</div></div>
+            <div class="shot-item" data-tilt><img src="screenshots/04-购物车.png" alt="购物车" loading="lazy"><div class="shot-label">购物车</div></div>
+            <div class="shot-item" data-tilt><img src="screenshots/05-后台登录.png" alt="后台登录" loading="lazy"><div class="shot-label">后台登录</div></div>
+            <div class="shot-item" data-tilt><img src="screenshots/06-数据概览.png" alt="数据概览" loading="lazy"><div class="shot-label">数据概览</div></div>
+            <div class="shot-item" data-tilt><img src="screenshots/07-商品管理.png" alt="商品管理" loading="lazy"><div class="shot-label">商品管理</div></div>
+            <div class="shot-item" data-tilt><img src="screenshots/08-订单管理.png" alt="订单管理" loading="lazy"><div class="shot-label">订单管理</div></div>
+            <div class="shot-item" data-tilt><img src="screenshots/09-用户管理.png" alt="用户管理" loading="lazy"><div class="shot-label">用户管理</div></div>
+            <div class="shot-item" data-tilt><img src="screenshots/10-分类管理.png" alt="分类管理" loading="lazy"><div class="shot-label">分类管理</div></div>
+            <div class="shot-item" data-tilt><img src="screenshots/11-API文档.png" alt="API文档" loading="lazy"><div class="shot-label">API 文档</div></div>
+            <div class="shot-item" data-tilt><img src="screenshots/12-结算页.png" alt="结算页" loading="lazy"><div class="shot-label">结算页</div></div>
         </div>
     </section>
 
@@ -391,9 +396,9 @@
         <h2 class="display reveal-3d" style="font-size:2.2rem;margin-top:10px;margin-bottom:12px;">获取源码</h2>
         <p class="reveal-3d" style="text-align:center;font-size:14px;color:var(--muted);margin-bottom:48px;">GitHub 展示页让你了解项目全貌。完整源码、管理后台、部署文档、技术支持——付费后交付。</p>
         <div class="price-row reveal-stagger">
-            <div class="price-plan spring"><h3>标准版</h3><span class="mono">一次性</span><div class="amount">&yen;299</div><ul><li><span class="dot"></span>完整源码</li><li><span class="dot"></span>数据库 + 部署文档</li><li><span class="dot"></span>1 次远程安装指导</li><li><span class="dot muted"></span>二次开发指导</li><li><span class="dot muted"></span>定制开发</li></ul></div>
+            <div class="price-plan spring" data-tilt><h3>标准版</h3><span class="mono">一次性</span><div class="amount">&yen;299</div><ul><li><span class="dot"></span>完整源码</li><li><span class="dot"></span>数据库 + 部署文档</li><li><span class="dot"></span>1 次远程安装指导</li><li><span class="dot muted"></span>二次开发指导</li><li><span class="dot muted"></span>定制开发</li></ul></div>
             <div class="price-plan featured spring"><h3>高级版</h3><span class="mono">一次性</span><div class="amount">&yen;599</div><ul><li><span class="dot"></span>标准版全部内容</li><li><span class="dot"></span>2 小时二次开发指导</li><li><span class="dot"></span>3 个月技术支持</li><li><span class="dot"></span>优先 Bug 修复</li><li><span class="dot muted"></span>定制开发</li></ul></div>
-            <div class="price-plan spring"><h3>定制版</h3><span class="mono">起步价</span><div class="amount">&yen;1,200</div><ul><li><span class="dot"></span>高级版全部内容</li><li><span class="dot"></span>真实支付对接</li><li><span class="dot"></span>UI 定制开发</li><li><span class="dot"></span>功能扩展</li><li><span class="dot"></span>长期维护</li></ul></div>
+            <div class="price-plan spring" data-tilt><h3>定制版</h3><span class="mono">起步价</span><div class="amount">&yen;1,200</div><ul><li><span class="dot"></span>高级版全部内容</li><li><span class="dot"></span>真实支付对接</li><li><span class="dot"></span>UI 定制开发</li><li><span class="dot"></span>功能扩展</li><li><span class="dot"></span>长期维护</li></ul></div>
         </div>
     </section>
 
@@ -418,22 +423,25 @@ var canvas = document.getElementById('physicsCanvas');
 var ctx = canvas.getContext('2d');
 
 // ─── Physics config ──────────────────────────────────
-var BLOCK_COUNT = 45;
-var GRAVITY = 0;          // zero gravity — blocks float freely
-var DAMPING = 0.9985;     // very light air resistance
-var MOUSE_FORCE = 28;     // repulsion strength
-var MOUSE_RADIUS = 180;   // repulsion radius in px
-var REPULSION_STRENGTH = 0.6;  // block-to-block repulsion
-var WALL_BOUNCE = 0.55;   // wall bounce restitution
+var BLOCK_COUNT = 50;
+var GRAVITY = 0;
+var DAMPING = 0.9988;
+var MOUSE_FORCE = 32;
+var MOUSE_RADIUS = 200;
+var WALL_BOUNCE = 0.50;
 
-// Warm QIWU palette
+// Refined QIWU palette — warmer, lower opacity
 var PALETTE = [
-    'rgba(184,117,79,0.18)',   // terracotta
-    'rgba(212,155,122,0.14)',  // terracotta-light
-    'rgba(125,139,111,0.16)',  // sage
-    'rgba(196,162,101,0.15)',  // gold
-    'rgba(58,53,45,0.10)',     // ink-2
-    'rgba(138,133,128,0.12)',  // muted
+    'rgba(184,117,79,0.16)',
+    'rgba(196,138,105,0.13)',
+    'rgba(212,155,122,0.11)',
+    'rgba(125,139,111,0.14)',
+    'rgba(146,158,132,0.12)',
+    'rgba(196,162,101,0.13)',
+    'rgba(210,178,120,0.11)',
+    'rgba(58,53,45,0.09)',
+    'rgba(85,77,65,0.10)',
+    'rgba(138,133,128,0.10)',
 ];
 
 var mouse = { x: -999, y: -999, active: false };
@@ -442,7 +450,7 @@ var w, h;
 
 // ─── Block constructor ────────────────────────────────
 function createBlock() {
-    var size = 24 + Math.random() * 40; // 24-64px
+    var size = 18 + Math.random() * 36; // 18-54px — smaller, more delicate
     return {
         x: Math.random() * w,
         y: Math.random() * h,
@@ -554,7 +562,7 @@ function render() {
 
 // ─── Main loop ────────────────────────────────────────
 var lastTime = 0;
-var substeps = 3;
+var substeps = 5;
 
 function loop(timestamp) {
     var dt = Math.min((timestamp - lastTime) / 1000, 0.05);
@@ -626,13 +634,55 @@ if (!ctx.roundRect) {
 (function(){
 'use strict';
 
-// ─── 1. 3D Scroll Reveal ─────────────────────────────
+// ─── 0. Full-page scroll bend ─────────────────────────
+var contentLayer = document.querySelector('.content-layer');
+var scrollVel = 0;
+var targetBend = 0;
+var currentBend = 0;
+var lastScrollY = window.scrollY;
+var lastTime = performance.now();
+var scrollDamping = 0.92;
+
+function updateScrollBend() {
+    var now = performance.now();
+    var dt = Math.min((now - lastTime) / 1000, 0.1);
+    lastTime = now;
+
+    var currentY = window.scrollY;
+    var rawVel = (currentY - lastScrollY) / Math.max(dt, 0.001);
+    lastScrollY = currentY;
+
+    // Smooth velocity with exponential moving average
+    scrollVel = scrollVel * 0.7 + rawVel * 0.3;
+
+    // Map velocity to bend angle (-2deg to +2deg)
+    var maxVel = 3000;
+    targetBend = Math.max(-1, Math.min(1, scrollVel / maxVel)) * 1.8;
+
+    // Spring-decay toward target
+    currentBend = currentBend * scrollDamping + targetBend * (1 - scrollDamping);
+
+    // Apply bend; clear inline style when nearly flat so CSS transition handles spring-back
+    if (Math.abs(currentBend) < 0.02) {
+        contentLayer.style.transform = '';
+    } else {
+        contentLayer.style.transform = 'perspective(2400px) rotateX(' + currentBend + 'deg)';
+    }
+
+    requestAnimationFrame(updateScrollBend);
+}
+requestAnimationFrame(updateScrollBend);
+
+// ─── 1. Bidirectional 3D Scroll Reveal ─────────────────
 var observer = new IntersectionObserver(function(entries) {
     entries.forEach(function(entry) {
         if (entry.isIntersecting) {
             entry.target.classList.add('visible');
             var counters = entry.target.querySelectorAll('[data-count]');
             counters.forEach(function(el) { animateCount(el); });
+        } else {
+            // Remove visible on exit so re-entering triggers animation again
+            entry.target.classList.remove('visible');
         }
     });
 }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
@@ -662,17 +712,28 @@ window.addEventListener('load', function() {
     if (ss) { var r = ss.getBoundingClientRect(); if (r.top < window.innerHeight && r.bottom > 0) ss.querySelectorAll('[data-count]').forEach(animateCount); }
 });
 
-// ─── 3. Mouse-tilt bento cards ────────────────────────
+// ─── 3. Mouse-tilt for all interactive blocks ──────────
 document.querySelectorAll('[data-tilt]').forEach(function(card) {
+    var isShot = card.classList.contains('shot-item');
+    var isPrice = card.classList.contains('price-plan');
+    var hovered = false;
+
+    card.addEventListener('mouseenter', function() { hovered = true; });
+    card.addEventListener('mouseleave', function() {
+        hovered = false;
+        card.style.transform = 'perspective(1200px) rotateX(0) rotateY(0) scale3d(1,1,1)';
+    });
     card.addEventListener('mousemove', function(e) {
         var rect = card.getBoundingClientRect();
         var cx = rect.width / 2, cy = rect.height / 2;
         var rx = ((e.clientY - rect.top - cy) / cy) * -5;
         var ry = ((e.clientX - rect.left - cx) / cx) * 5;
-        card.style.transform = 'perspective(1200px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg) scale3d(1.02,1.02,1.02)';
-    });
-    card.addEventListener('mouseleave', function() {
-        card.style.transform = 'perspective(1200px) rotateX(0) rotateY(0) scale3d(1,1,1)';
+        // Merge hover lift for shot-item and price-plan
+        var lift = '';
+        if (hovered && isShot) lift = ' translateY(-6px) scale3d(1.03,1.03,1.03)';
+        else if (hovered && isPrice) lift = ' translateY(-8px) scale3d(1.03,1.03,1.03)';
+        else lift = ' scale3d(1.02,1.02,1.02)';
+        card.style.transform = 'perspective(1200px) rotateX(' + rx + 'deg) rotateY(' + ry + 'deg)' + lift;
     });
 });
 
